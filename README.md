@@ -39,7 +39,7 @@ Bạn cũng có thể mở trực tiếp file `index.html` bằng trình duyệt
 
 ## Chức năng đã có
 
-- Giao diện responsive cho máy tính, tablet và điện thoại.
+
 - Header, hero, danh mục, sản phẩm, khuyến mãi, đánh giá, liên hệ, footer.
 - Tìm kiếm sản phẩm.
 - Lọc sản phẩm theo danh mục.
@@ -50,7 +50,17 @@ Bạn cũng có thể mở trực tiếp file `index.html` bằng trình duyệt
 - Tính tổng tiền.
 - Lưu giỏ hàng bằng localStorage.
 - Kiểm tra form liên hệ cơ bản.
+## admin 
 
+- Email: admin@lunafashion.com
+- Mật khẩu: admin123
+
+## Chức năng admin Quản lý sản phẩm:
+
+- Quản lí sản phẩm Thêm sửa xóa sản phẩm
+- Quản lý khách hàng:
+- Quản lý đơn hàng:
+- Thống kê
 ## Ghi chú
 
-Website này là bản Front-end tĩnh, chưa có backend và database. Phù hợp để nộp bài tập HTML/CSS/JavaScript cơ bản.
+Website này là bản Front-end tĩnh, chưa có backend và database. HTML/CSS/JavaScript cơ bản.
