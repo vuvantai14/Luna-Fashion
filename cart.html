@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giỏ hàng - Luna Fashion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <span>Miễn phí vận chuyển cho đơn từ 500K</span>
+      <span>Ưu đãi đến 30% cho thành viên mới</span>
+      <span>Hotline: 0123 456 789</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-wrapper">
+      <a href="index.html" class="logo" aria-label="Luna Fashion">
+        <span class="logo-main">Luna<span>Fashion</span></span>
+        <small>Be your own kind of beautiful</small>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Trang chủ</a>
+        <a href="products.html">Sản phẩm</a>
+        <a href="brand.html">Thương hiệu</a>
+        <a href="collection.html">Bộ sưu tập</a>
+        <a href="sale.html">Khuyến mãi</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." />
+          <span>⌕</span>
+        </div>
+        <a class="login-link" href="login.html" aria-label="Đăng nhập"><span>👤</span><small>Đăng nhập</small></a>
+        <a class="cart-button" href="cart.html" aria-label="Mở giỏ hàng">🛍<span id="cartCount">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-page">
+    <div class="container">
+      <div class="cart-page-title">
+        <h1>🛍 Giỏ hàng của Quý khách <span id="cartPageCount">(0 sản phẩm)</span></h1>
+      </div>
+
+      <div class="cart-success">
+        <span>✓</span>
+        <p id="cartPageNotice">Giỏ hàng của Quý khách đang trống.</p>
+      </div>
+
+      <div class="cart-page-layout">
+        <section class="cart-page-table">
+          <div class="cart-page-head">
+            <div><input type="checkbox" checked aria-label="Chọn tất cả"></div>
+            <div>Sản phẩm</div>
+            <div>Giá</div>
+            <div>Số lượng</div>
+            <div>Tạm tính</div>
+            <div>Xóa</div>
+          </div>
+          <div id="cartPageItems"></div>
+        </section>
+
+        <aside class="cart-summary">
+          <section>
+            <h2>Thẻ quà tặng / mã giảm giá</h2>
+            <p><a href="#">Đăng nhập</a> để nhận các chương trình khuyến mãi và ưu đãi dành riêng cho Quý khách.</p>
+          </section>
+
+          <section>
+            <h2>Thẻ quà tặng / mã giảm giá</h2>
+            <div class="coupon-form">
+              <input type="text" placeholder="Nhập mã giảm giá" />
+              <button type="button">Áp dụng</button>
+            </div>
+            <small>Quý khách có thể sử dụng nhiều mã.</small>
+          </section>
+
+          <section>
+            <h2>Tạm tính</h2>
+            <div class="summary-line">
+              <span>Tạm tính</span>
+              <strong id="cartPageSubtotal">0đ</strong>
+            </div>
+            <div class="summary-line">
+              <span>Vận chuyển</span>
+              <strong id="cartPageShipping">0đ</strong>
+            </div>
+            <div class="summary-line total">
+              <span>Tổng thanh toán</span>
+              <strong id="cartPageTotal">0đ</strong>
+            </div>
+            <small>*Đã bao gồm VAT</small>
+          </section>
+
+          <button class="checkout-main-btn" type="button">Thanh toán ngay</button>
+          <a class="continue-shopping" href="products.html">Tiếp tục mua sắm</a>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrapper">
+      <div>
+        <a href="index.html" class="logo footer-logo"><span class="logo-main">Luna<span>Fashion</span></span><small>Be your own kind of beautiful</small></a>
+        <p>Thời trang nữ hiện đại, nữ tính và dễ ứng dụng mỗi ngày.</p>
+      </div>
+      <div><h4>Thông tin</h4><a href="products.html">Sản phẩm</a><a href="sale.html">Khuyến mãi</a><a href="contact.html">Liên hệ</a></div>
+      <div><h4>Chính sách</h4><a href="#">Chính sách mua hàng</a><a href="#">Chính sách đổi trả</a><a href="#">Chính sách vận chuyển</a></div>
+      <div><h4>Theo dõi shop</h4><p>Facebook · Instagram · TikTok</p><p>Hotline: 0909 123 456</p></div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Giỏ hàng">
+    <div class="cart-header"><h3>Giỏ hàng của bạn</h3><button id="cartCloseBtn" aria-label="Đóng giỏ hàng">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Tổng tiền:</span><strong id="cartTotal">0đ</strong></div><button class="btn btn-primary checkout-btn" id="checkoutBtn">Thanh toán</button></div>
+  </aside>
+  <div class="quick-modal" id="quickModal" role="dialog" aria-modal="true"><div class="quick-content"><button class="quick-close" id="quickCloseBtn" aria-label="Đóng xem nhanh">×</button><div id="quickViewBody"></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Luna Fashion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="admin-page" id="adminApp">
+    <aside class="admin-sidebar">
+      <a href="index.html" class="logo">
+        <span class="logo-main">Luna<span>Fashion</span></span>
+        <small>Admin dashboard</small>
+      </a>
+      <nav>
+        <a href="#adminProducts">Sản phẩm</a>
+        <a href="#adminCustomers">Khách hàng</a>
+        <a href="#adminOrders">Đơn hàng</a>
+        <a href="index.html">Về website</a>
+      </nav>
+      <div class="admin-account">
+        <strong>Admin mặc định</strong>
+        <span>admin@lunafashion.com</span>
+        <span>admin123</span>
+      </div>
+    </aside>
+
+    <section class="admin-content">
+      <div class="admin-topbar">
+        <div>
+          <p>Quản trị hệ thống</p>
+          <h1>Luna Fashion Admin</h1>
+        </div>
+        <a class="btn btn-primary" href="products.html">Xem cửa hàng</a>
+      </div>
+
+      <div class="admin-stats" id="adminStats"></div>
+
+      <section class="admin-panel" id="adminProducts">
+        <div class="admin-panel-title">
+          <div>
+            <p>Quản lý</p>
+            <h2>Sản phẩm</h2>
+          </div>
+          <button type="button" onclick="resetAdminProductForm()">Tạo mới</button>
+        </div>
+
+        <form class="admin-product-form" id="adminProductForm">
+          <input type="hidden" name="productId">
+          <label>Tên sản phẩm<input type="text" name="productName" placeholder="Ví dụ: Đầm hoa pastel"></label>
+          <label>Danh mục
+            <select name="productCategory">
+              <option value="Đầm">Đầm</option>
+              <option value="Áo">Áo</option>
+              <option value="Váy">Váy</option>
+              <option value="Phụ kiện">Phụ kiện</option>
+            </select>
+          </label>
+          <label>Giá<input type="number" name="productPrice" placeholder="329000"></label>
+          <label>Giá cũ<input type="number" name="productOldPrice" placeholder="420000"></label>
+          <label>Ảnh
+            <select name="productImage">
+              <option value="assets/product-1.svg">product-1.svg</option>
+              <option value="assets/product-2.svg">product-2.svg</option>
+              <option value="assets/product-3.svg">product-3.svg</option>
+              <option value="assets/product-4.svg">product-4.svg</option>
+              <option value="assets/product-5.svg">product-5.svg</option>
+              <option value="assets/product-6.svg">product-6.svg</option>
+              <option value="assets/product-7.svg">product-7.svg</option>
+              <option value="assets/product-8.svg">product-8.svg</option>
+            </select>
+          </label>
+          <label>Nhãn<input type="text" name="productTag" placeholder="New / Sale / Hot"></label>
+          <label class="admin-form-wide">Mô tả<textarea name="productDescription" rows="3" placeholder="Mô tả ngắn về sản phẩm"></textarea></label>
+          <button class="admin-save-btn" type="submit">Lưu sản phẩm</button>
+        </form>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Ảnh</th>
+                <th>Sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Giá</th>
+                <th>Nhãn</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-panel" id="adminCustomers">
+        <div class="admin-panel-title">
+          <div>
+            <p>Quản lý</p>
+            <h2>Khách hàng</h2>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Ngày tạo</th>
+              </tr>
+            </thead>
+            <tbody id="adminCustomerTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-panel" id="adminOrders">
+        <div class="admin-panel-title">
+          <div>
+            <p>Quản lý</p>
+            <h2>Đơn hàng</h2>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thời gian</th>
+              </tr>
+            </thead>
+            <tbody id="adminOrderTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

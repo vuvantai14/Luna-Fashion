@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sản phẩm - Luna Fashion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <span>Miễn phí vận chuyển cho đơn từ 500K</span>
+      <span>Ưu đãi đến 30% cho thành viên mới</span>
+      <span>Hotline: 0123 456 789</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-wrapper">
+      <a href="index.html" class="logo" aria-label="Luna Fashion">
+        <span class="logo-main">Luna<span>Fashion</span></span>
+        <small>Be your own kind of beautiful</small>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Trang chủ</a>
+        <a href="products.html" class="active">Sản phẩm</a>
+        <a href="brand.html">Thương hiệu</a>
+        <a href="collection.html">Bộ sưu tập</a>
+        <a href="sale.html">Khuyến mãi</a>
+        <a href="contact.html">Liên hệ</a>
+      </nav>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." />
+          <span>⌕</span>
+        </div>
+        <a class="login-link" href="login.html" aria-label="Đăng nhập"><span>👤</span><small>Đăng nhập</small></a>
+        <button class="cart-button" id="cartOpenBtn" aria-label="Mở giỏ hàng">🛍<span id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <span class="breadcrumb">Trang chủ / Sản phẩm</span>
+        <h1>Sản phẩm Luna Fashion</h1>
+        <p>Chọn nhanh các mẫu đầm, áo, chân váy và phụ kiện đang được yêu thích nhất.</p>
+      </div>
+    </section>
+
+    <section class="section products-section" id="products">
+      <div class="container">
+        <div class="section-title compact">
+          <h2>Tất cả sản phẩm</h2>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="Tất cả">Tất cả</button>
+          <button class="filter-btn" data-filter="Đầm">Đầm</button>
+          <button class="filter-btn" data-filter="Áo">Áo</button>
+          <button class="filter-btn" data-filter="Váy">Váy</button>
+          <button class="filter-btn" data-filter="Phụ kiện">Phụ kiện</button>
+        </div>
+
+        <div class="products-layout">
+          <aside class="product-filter-sidebar" aria-label="Bộ lọc sản phẩm">
+            <div class="filter-sidebar-head">
+              <h3>Bộ lọc</h3>
+              <button type="button" id="clearProductFilters">Xóa lọc</button>
+            </div>
+
+            <div class="filter-group">
+              <h4>Danh mục sản phẩm</h4>
+              <label><input type="radio" name="sidebarCategory" value="Tất cả" checked> Tất cả</label>
+              <label><input type="radio" name="sidebarCategory" value="Đầm"> Đầm</label>
+              <label><input type="radio" name="sidebarCategory" value="Áo"> Áo</label>
+              <label><input type="radio" name="sidebarCategory" value="Váy"> Váy</label>
+              <label><input type="radio" name="sidebarCategory" value="Phụ kiện"> Phụ kiện</label>
+            </div>
+
+            <div class="filter-group">
+              <h4>Khoảng giá</h4>
+              <label><input type="radio" name="priceFilter" value="all" checked> Tất cả giá</label>
+              <label><input type="radio" name="priceFilter" value="0-250000"> Dưới 250.000đ</label>
+              <label><input type="radio" name="priceFilter" value="250000-400000"> 250.000đ - 400.000đ</label>
+              <label><input type="radio" name="priceFilter" value="400000-9999999"> Trên 400.000đ</label>
+            </div>
+
+            <div class="filter-group">
+              <h4>Màu sắc</h4>
+              <label><input type="checkbox" name="colorFilter" value="Pastel Pink"> Pastel Pink</label>
+              <label><input type="checkbox" name="colorFilter" value="Ivory"> Ivory</label>
+              <label><input type="checkbox" name="colorFilter" value="Black"> Black</label>
+              <label><input type="checkbox" name="colorFilter" value="Beige"> Beige</label>
+            </div>
+
+            <button class="filter-search-btn" type="button" id="applyProductFilters">Tìm kiếm</button>
+          </aside>
+
+          <div class="products-main">
+            <div class="product-grid" id="productGrid"></div>
+            <p class="empty-message" id="emptyMessage">Không tìm thấy sản phẩm phù hợp.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrapper">
+      <div>
+        <a href="index.html" class="logo footer-logo"><span class="logo-main">Luna<span>Fashion</span></span><small>Be your own kind of beautiful</small></a>
+        <p>Thời trang nữ hiện đại, nữ tính và dễ ứng dụng mỗi ngày.</p>
+      </div>
+      <div><h4>Thông tin</h4><a href="products.html">Sản phẩm</a><a href="sale.html">Khuyến mãi</a><a href="contact.html">Liên hệ</a></div>
+      <div><h4>Chính sách</h4><a href="#">Chính sách mua hàng</a><a href="#">Chính sách đổi trả</a><a href="#">Chính sách vận chuyển</a></div>
+      <div><h4>Theo dõi shop</h4><p>Facebook · Instagram · TikTok</p><p>Hotline: 0909 123 456</p></div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Giỏ hàng">
+    <div class="cart-header"><h3>Giỏ hàng của bạn</h3><button id="cartCloseBtn" aria-label="Đóng giỏ hàng">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"><div class="cart-total"><span>Tổng tiền:</span><strong id="cartTotal">0đ</strong></div><button class="btn btn-primary checkout-btn" id="checkoutBtn">Thanh toán</button></div>
+  </aside>
+  <div class="quick-modal" id="quickModal" role="dialog" aria-modal="true"><div class="quick-content"><button class="quick-close" id="quickCloseBtn" aria-label="Đóng xem nhanh">×</button><div id="quickViewBody"></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>

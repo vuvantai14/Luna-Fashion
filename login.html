@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&#272;&#259;ng nh&#7853;p - Luna Fashion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-body">
+  <main class="auth-page auth-login">
+    <a class="auth-close" href="index.html" aria-label="V&#7873; trang ch&#7911;">&times;</a>
+    <section class="auth-card">
+      <a href="index.html" class="auth-logo">
+        <span class="logo-main">Luna<span>Fashion</span></span>
+        <small>Be your own kind of beautiful</small>
+      </a>
+
+      <div class="auth-tabs">
+        <a class="active" href="login.html">&#272;&#259;ng nh&#7853;p</a>
+        <a href="register.html">&#272;&#259;ng k&#253;</a>
+      </div>
+
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="auth-row">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="Nh&#7853;p email" />
+        </div>
+
+        <div class="auth-row">
+          <label for="loginPassword">M&#7853;t kh&#7849;u</label>
+          <div class="password-field">
+            <input type="password" id="loginPassword" placeholder="Nh&#7853;p m&#7853;t kh&#7849;u" />
+            <button type="button" aria-label="Hi&#7879;n m&#7853;t kh&#7849;u">&#9671;</button>
+          </div>
+        </div>
+
+        <button class="auth-submit" type="submit">&#272;&#259;ng nh&#7853;p</button>
+        <p class="auth-message" id="loginMessage"></p>
+        <div class="auth-divider"><span>ho&#7863;c</span></div>
+        <a class="auth-alt" href="register.html">
+          <span>Ch&#432;a c&#243; t&#224;i kho&#7843;n?</span>
+          <strong>T&#7841;o t&#224;i kho&#7843;n m&#7899;i</strong>
+        </a>
+      </form>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

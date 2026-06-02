@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" role="img" aria-label="Đầm hoa pastel">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff5f7"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#e75480" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect width="500" height="500" rx="40" fill="url(#bg)"/>
+  <circle cx="92" cy="88" r="42" fill="#f8c8dc" opacity="0.55"/>
+  <circle cx="404" cy="120" r="68" fill="#f8c8dc" opacity="0.28"/>
+  <circle cx="410" cy="394" r="44" fill="#e75480" opacity="0.12"/>
+  <g filter="url(#shadow)">
+    
+        <path d="M250 120 C220 170 205 235 178 350 L322 350 C295 235 280 170 250 120Z" fill="#e75480" opacity="0.95"/>
+        <path d="M210 115 C226 145 274 145 290 115 L267 95 C258 108 242 108 233 95Z" fill="#f8c8dc"/>
+        <circle cx="250" cy="86" r="28" fill="#ffdfec"/>
+        
+  </g>
+  <text x="250" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#333333">Đầm hoa pastel</text>
+  <text x="250" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#777777">Luna Fashion</text>
+</svg>
