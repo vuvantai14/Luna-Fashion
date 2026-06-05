@@ -7,7 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/products.css">
+  <link rel="stylesheet" href="../css/product-detail.css">
 </head>
 <body>
   <div class="top-bar">
@@ -76,7 +79,7 @@
           <section class="fashion-gallery">
             <div class="detail-main-image fashion-main-image">
               <span class="easy-buy-badge">EASY<br>BUY</span>
-              <img id="detailImage" src="assets/product-1.svg" alt="Đầm hoa pastel" />
+              <img id="detailImage" src="../assets/product-1.svg" alt="Đầm hoa pastel" />
             </div>
           </section>
 
@@ -94,9 +97,9 @@
               <h2>Màu sắc</h2>
               <p>Pastel Pink <span>Chỉ còn 2 sản phẩm</span></p>
               <div class="color-options" id="colorOptions">
-                <button class="active" type="button" data-color="Pastel Pink"><img src="assets/product-1.svg" alt="Pastel Pink" /></button>
-                <button type="button" data-color="Ivory"><img src="assets/product-2.svg" alt="Ivory" /></button>
-                <button type="button" data-color="Black"><img src="assets/product-4.svg" alt="Black" /></button>
+                <button class="active" type="button" data-color="Pastel Pink"><img src="../assets/product-1.svg" alt="Pastel Pink" /></button>
+                <button type="button" data-color="Ivory"><img src="../assets/product-2.svg" alt="Ivory" /></button>
+                <button type="button" data-color="Black"><img src="../assets/product-4.svg" alt="Black" /></button>
               </div>
             </div>
 
@@ -168,6 +171,6 @@
   </aside>
   <div class="quick-modal" id="quickModal" role="dialog" aria-modal="true"><div class="quick-content"><button class="quick-close" id="quickCloseBtn" aria-label="Đóng xem nhanh">×</button><div id="quickViewBody"></div></div></div>
   <div class="toast" id="toast"></div>
-  <script src="script.js"></script>
+  <script type="module" src="../js/product-detail.js"></script>
 </body>
 </html>

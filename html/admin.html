@@ -7,7 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
   <main class="admin-page" id="adminApp">
@@ -215,7 +217,7 @@
                   </select>
                 </label>
                 <label class="admin-form-wide">Ảnh sản phẩm
-                  <input type="text" name="productImage" placeholder="assets/product-1.jpg">
+                  <input type="text" name="productImage" placeholder="../assets/product-1.jpg">
                 </label>
                 <div class="admin-form-actions">
                   <button class="admin-save-btn" type="submit">Lưu sản phẩm</button>
@@ -342,6 +344,6 @@
   </main>
 
   <div class="toast" id="toast"></div>
-  <script src="script.js"></script>
+  <script type="module" src="../js/admin.js"></script>
 </body>
 </html>
