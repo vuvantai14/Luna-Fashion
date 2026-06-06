@@ -1,4 +1,4 @@
-import { formatMoney, getCurrentUser, getOrders, initCommonLayout } from "./common.js";
+import { formatMoney, getCurrentUser, getOrders, initCommonLayout, saveOrders } from "./common.js";
 import { initCartControls } from "./cart.js";
 
 let selectedUserOrderId = null;
@@ -17,6 +17,53 @@ export function getOrderStatusClass(status) {
   return "is-pending";
 }
 
+function getCurrentUserOrderMatch(order, currentUser) {
+  return String(order.customerId) === String(currentUser.id) || order.email === currentUser.email;
+}
+
+function getOrderImageSrc(image) {
+  const imagePath = String(image || "").trim();
+  if (!imagePath) return "../assets/product-1.jpg";
+  if (/^(https?:|data:|blob:)/.test(imagePath)) return imagePath;
+
+  const normalizedPath = imagePath.replace(/\\/g, "/");
+  const assetIndex = normalizedPath.lastIndexOf("assets/");
+  if (assetIndex !== -1) return `../${normalizedPath.slice(assetIndex)}`;
+
+  return normalizedPath;
+}
+
+function syncCurrentUserOrders(currentUser) {
+  const orders = getOrders();
+  const customerName = `${currentUser.lastName || ""} ${currentUser.firstName || ""}`.trim();
+  let hasChange = false;
+
+  const syncedOrders = orders.map((order) => {
+    if (!getCurrentUserOrderMatch(order, currentUser)) return order;
+
+    const nextOrder = {
+      ...order,
+      customerId: currentUser.id,
+      customerName,
+      email: currentUser.email,
+      phone: currentUser.phone || "",
+      address: currentUser.address || ""
+    };
+
+    hasChange = hasChange
+      || nextOrder.customerName !== order.customerName
+      || nextOrder.email !== order.email
+      || nextOrder.phone !== order.phone
+      || nextOrder.address !== order.address
+      || String(nextOrder.customerId) !== String(order.customerId);
+
+    return nextOrder;
+  });
+
+  if (hasChange) saveOrders(syncedOrders);
+  return syncedOrders.filter((order) => getCurrentUserOrderMatch(order, currentUser));
+}
+
 export function renderUserOrders() {
   const userOrdersContent = document.getElementById("userOrdersContent");
   if (!userOrdersContent) return;
@@ -33,7 +80,7 @@ export function renderUserOrders() {
     return;
   }
 
-  const orders = getOrders().filter((order) => order.customerId === currentUser.id || order.email === currentUser.email);
+  const orders = syncCurrentUserOrders(currentUser);
   if (orders.length === 0) {
     userOrdersContent.innerHTML = `
       <div class="orders-empty">
@@ -110,15 +157,15 @@ export function renderUserOrders() {
         </div>
         <section class="user-order-address">
           <h3>Địa chỉ giao hàng</h3>
-          <strong>${selectedOrder.customerName || `${currentUser.lastName || ""} ${currentUser.firstName || ""}`}</strong>
-          <p>${selectedOrder.phone || currentUser.phone || "Chưa cập nhật SĐT"}</p>
-          <p>${selectedOrder.address || currentUser.address || "Chưa cập nhật địa chỉ"}</p>
+          <strong>${`${currentUser.lastName || ""} ${currentUser.firstName || ""}`.trim() || selectedOrder.customerName || "Khách hàng"}</strong>
+          <p>${currentUser.phone || selectedOrder.phone || "Chưa cập nhật SĐT"}</p>
+          <p>${currentUser.address || selectedOrder.address || "Chưa cập nhật địa chỉ"}</p>
         </section>
         <section class="user-order-products">
           <div class="user-section-head"><h3>Sản phẩm (${selectedItems.length})</h3><a href="products.html">Xem tất cả</a></div>
           ${selectedItems.map((item) => `
             <article>
-              <img src="${item.image}" alt="${item.name}">
+              <img src="${getOrderImageSrc(item.image)}" alt="${item.name}">
               <div><strong>${item.name}</strong><span>${item.color || "Pastel Pink"} - ${item.size || "M"}</span></div>
               <small>x${item.quantity}</small>
               <b>${formatMoney(item.price)}</b>

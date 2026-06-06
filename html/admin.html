@@ -35,9 +35,9 @@
           <p>Control panel</p>
         </div>
         <div class="admin-top-actions">
-          <span class="admin-top-route">Home / Dashboard</span>
-          <span class="admin-alert-dot"></span>
-          <span class="admin-avatar-mini">LF</span>
+          <span class="admin-avatar-mini">
+            <img src="../assets/logoadmin.jpg" alt="Luna Admin">
+          </span>
           <strong>Hi, Luna Admin</strong>
         </div>
       </div>
@@ -244,25 +244,17 @@
       </section>
 
       <section class="admin-panel" id="adminCustomers">
-        <div class="admin-panel-title">
-          <div>
-            <p>Quản lý</p>
-            <h2>Khách hàng</h2>
-          </div>
-        </div>
         <div class="admin-customer-manager">
-          <div class="admin-list-toolbar">
-            <div class="admin-list-title-row">
-              <strong>Danh sách khách hàng</strong>
-              <div class="admin-list-actions admin-customer-search">
-                <input type="search" id="adminCustomerSearch" placeholder="Tìm theo email hoặc số điện thoại">
-                <button type="button" id="adminSearchCustomers">Tìm kiếm</button>
-                <button class="admin-clear-filter-btn" type="button" id="adminClearCustomerSearch">Xóa lọc</button>
-              </div>
+          <div class="admin-customer-toolbar">
+            <strong>Danh sách khách hàng</strong>
+            <div class="admin-customer-search">
+              <input type="search" id="adminCustomerSearch" placeholder="Tìm theo email hoặc số điện thoại">
+              <button type="button" id="adminSearchCustomers">Tìm kiếm</button>
+              <button class="admin-clear-filter-btn" type="button" id="adminClearCustomerSearch">Xóa lọc</button>
             </div>
           </div>
 
-          <div class="admin-table-wrap">
+          <div class="admin-table-wrap admin-customer-table-wrap">
             <table class="admin-table admin-customer-table">
               <thead>
                 <tr>
@@ -279,14 +271,26 @@
               <tbody id="adminCustomerTable"></tbody>
             </table>
           </div>
+
+          <div class="admin-customer-footer">
+            <span>Hiển thị 1 đến 6 của 102 khách hàng</span>
+            <div>
+              <button type="button">&lt;</button>
+              <button class="active" type="button">1</button>
+              <button type="button">2</button>
+              <button type="button">3</button>
+              <span>...</span>
+              <button type="button">11</button>
+              <button type="button">&gt;</button>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="admin-panel" id="adminOrders">
         <div class="admin-panel-title">
           <div>
-            <p>Quản lý</p>
-            <h2>Đơn hàng</h2>
+            <h2>Quản lý đơn hàng</h2>
           </div>
           <button type="button">+ Tạo đơn hàng</button>
         </div>

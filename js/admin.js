@@ -22,6 +22,16 @@ let adminProductFilters = { category: "all", price: "all", tag: "all", keyword: 
 let adminCustomerKeyword = "";
 let adminOrderFilters = { status: "all", dateFrom: "", dateTo: "", keyword: "" };
 let selectedAdminOrderId = null;
+let adminRevenuePeriod = "week";
+
+const adminCustomerSeed = [
+  { id: 1, name: "Nguyễn Mến", email: "nguyenmen@gmail.com", phone: "0903665225", address: "Tân Phú, TP.HCM", createdAt: "02/06/2026", status: "Hoạt động" },
+  { id: 2, name: "Trần Phương Anh", email: "anhtran@gmail.com", phone: "0912345678", address: "Quận 3, TP.HCM", createdAt: "01/06/2026", status: "Hoạt động" },
+  { id: 3, name: "Lê Minh Quân", email: "lequan@gmail.com", phone: "0933123456", address: "Bình Thạnh, TP.HCM", createdAt: "31/05/2026", status: "Hoạt động" },
+  { id: 4, name: "Hoàng Gia Bảo", email: "baohg@gmail.com", phone: "0909090909", address: "Gò Vấp, TP.HCM", createdAt: "30/05/2026", status: "Tạm khóa" },
+  { id: 5, name: "Phạm Thảo Vy", email: "thaovy@gmail.com", phone: "0911222333", address: "Thủ Đức, TP.HCM", createdAt: "29/05/2026", status: "Hoạt động" },
+  { id: 6, name: "Đặng Khánh Linh", email: "linhdk@gmail.com", phone: "0988776655", address: "Tân Bình, TP.HCM", createdAt: "28/05/2026", status: "Đã khóa" }
+];
 
 function requireAdminAccess() {
   const adminApp = document.getElementById("adminApp");
@@ -74,15 +84,16 @@ function showAdminSection(sectionId = "adminDashboard") {
   const targetId = sectionId.replace("#", "");
   const targetPanel = document.getElementById(targetId) || document.getElementById("adminDashboard");
   const sectionTitles = {
-    adminDashboard: ["Dashboard", "Control panel"],
+    adminDashboard: ["Dashboard", ""],
     adminProducts: ["Quản lý sản phẩm", "Danh sách và trạng thái sản phẩm"],
-    adminOrders: ["Quản lý đơn hàng", "Theo dõi và xử lý đơn hàng"],
-    adminCustomers: ["Quản lý khách hàng", "Thông tin tài khoản khách hàng"]
+    adminOrders: ["Quản lý đơn hàng", ""],
+    adminCustomers: ["Quản lý khách hàng", ""]
   };
   const [title, subtitle] = sectionTitles[targetPanel.id] || sectionTitles.adminDashboard;
 
   document.querySelector(".admin-topbar h1").textContent = title;
   document.querySelector(".admin-topbar p").textContent = subtitle;
+  document.querySelector(".admin-topbar p").hidden = !subtitle;
   document.querySelectorAll(".admin-panel").forEach((panel) => {
     panel.classList.toggle("active", panel === targetPanel);
   });
@@ -125,45 +136,238 @@ function renderAdminStats() {
   `;
 }
 
+function getOrderPaymentDate(order) {
+  return new Date(order.paidAt || order.paymentDate || order.paidDate || order.createdAt);
+}
+
+function getChartScaleMax(maxRevenue) {
+  if (maxRevenue <= 0) return 1000000;
+
+  const magnitude = 10 ** Math.floor(Math.log10(maxRevenue));
+  const normalized = maxRevenue / magnitude;
+  const niceStep = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+  return niceStep * magnitude;
+}
+
+function formatChartMoney(value) {
+  if (value >= 1000000000) return `${value / 1000000000}B`;
+  if (value >= 1000000) return `${value / 1000000}M`;
+  if (value >= 1000) return `${value / 1000}K`;
+  return String(value);
+}
+
+function getAdminImageSrc(image) {
+  const imagePath = String(image || "").trim();
+  if (!imagePath) return "../assets/product-1.jpg";
+  if (/^(https?:|data:|blob:)/.test(imagePath)) return imagePath;
+
+  const assetIndex = imagePath.replace(/\\/g, "/").lastIndexOf("assets/");
+  if (assetIndex !== -1) return `../${imagePath.replace(/\\/g, "/").slice(assetIndex)}`;
+
+  return imagePath;
+}
+
+function getWeekStart(date) {
+  const start = new Date(date);
+  const day = start.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  start.setDate(start.getDate() + diff);
+  start.setHours(0, 0, 0, 0);
+  return start;
+}
+
+function formatChartDate(date) {
+  return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+}
+
+function getRevenueChart(period = adminRevenuePeriod) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  let chartItems = [];
+
+  if (period === "year") {
+    chartItems = Array.from({ length: 12 }, (_, index) => ({
+      label: `T${index + 1}`,
+      revenue: 0,
+      tooltipDate: `Tháng ${index + 1}/${year}`
+    }));
+  } else if (period === "month") {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    chartItems = Array.from({ length: daysInMonth }, (_, index) => {
+      const date = new Date(year, month, index + 1);
+      return {
+        label: String(index + 1).padStart(2, "0"),
+        revenue: 0,
+        tooltipDate: formatChartDate(date)
+      };
+    });
+  } else {
+    const weekStart = getWeekStart(now);
+    const weekLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    chartItems = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + index);
+      return {
+        label: weekLabels[index],
+        revenue: 0,
+        tooltipDate: formatChartDate(date)
+      };
+    });
+  }
+
+  getCustomerOrders()
+    .filter((order) => getOrderStatusClass(order.status) !== "is-cancelled")
+    .forEach((order) => {
+      const paymentDate = getOrderPaymentDate(order);
+      if (Number.isNaN(paymentDate.getTime())) return;
+
+      let itemIndex = -1;
+      if (period === "year") {
+        if (paymentDate.getFullYear() !== year) return;
+        itemIndex = paymentDate.getMonth();
+      } else if (period === "month") {
+        if (paymentDate.getFullYear() !== year || paymentDate.getMonth() !== month) return;
+        itemIndex = paymentDate.getDate() - 1;
+      } else {
+        const weekStart = getWeekStart(now);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 7);
+        if (paymentDate < weekStart || paymentDate >= weekEnd) return;
+        itemIndex = Math.floor((paymentDate - weekStart) / 86400000);
+      }
+
+      if (chartItems[itemIndex]) chartItems[itemIndex].revenue += Number(order.total || 0);
+    });
+
+  const maxRevenue = Math.max(...chartItems.map((item) => item.revenue));
+  const scaleMax = getChartScaleMax(maxRevenue);
+  const selectedPoint = chartItems.reduce((best, item) => item.revenue > best.revenue ? item : best, chartItems[0]);
+  const activePoint = selectedPoint.revenue > 0
+    ? selectedPoint
+    : chartItems[Math.min(period === "year" ? now.getMonth() : period === "month" ? now.getDate() - 1 : (now.getDay() + 5) % 7, chartItems.length - 1)];
+  const points = chartItems.map((item, index) => ({
+    ...item,
+    x: ((index + 0.5) / chartItems.length) * 720,
+    y: 220 - (item.revenue / scaleMax) * 180
+  }));
+  const active = points.find((point) => point.label === activePoint.label) || points[0];
+  const linePath = points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(1)},${point.y.toFixed(1)}`).join(" ");
+  const areaPath = `${linePath} L${points[points.length - 1].x.toFixed(1)},240 L${points[0].x.toFixed(1)},240 Z`;
+  const getTooltipPosition = (point) => ({
+    x: Math.min(Math.max(point.x - 128, 0), 464),
+    y: Math.max(point.y - 100, 12)
+  });
+  const visibleXAxisPoints = period === "month"
+    ? points.filter((_, index) => index === 0 || index === points.length - 1 || [4, 9, 14, 19, 24].includes(index))
+    : points;
+
+  return {
+    active,
+    areaPath,
+    getTooltipPosition,
+    linePath,
+    points,
+    xAxisItems: visibleXAxisPoints.map((point) => ({
+      label: point.label,
+      left: (point.x / 720) * 100
+    })),
+    yAxisLabels: [scaleMax, scaleMax * 0.75, scaleMax * 0.5, scaleMax * 0.25, 0].map(formatChartMoney),
+    tooltipDate: active.tooltipDate
+  };
+}
+
+function getTopSellingProducts(limit = 5) {
+  const soldByProduct = new Map();
+
+  getCustomerOrders()
+    .filter((order) => getOrderStatusClass(order.status) !== "is-cancelled")
+    .forEach((order) => {
+      (order.items || []).forEach((item) => {
+        const productId = Number(item.id);
+        const current = soldByProduct.get(productId) || {
+          id: productId,
+          image: item.image,
+          name: item.name,
+          price: Number(item.price || 0),
+          sold: 0
+        };
+
+        current.sold += Number(item.quantity || 0);
+        soldByProduct.set(productId, current);
+      });
+    });
+
+  const soldProducts = [...soldByProduct.values()]
+    .sort((first, second) => second.sold - first.sold)
+    .slice(0, limit);
+
+  if (soldProducts.length > 0) return soldProducts;
+
+  return products.slice(0, limit).map((product, index) => ({
+    id: product.id,
+    image: product.image,
+    name: product.name,
+    price: product.price,
+    sold: Math.max(320 - index * 35, 0)
+  }));
+}
+
 function renderAdminDashboard() {
   const dashboardShell = document.querySelector("#adminDashboard .admin-dashboard-shell");
   if (!dashboardShell) return;
 
   const recentOrders = getCustomerOrders().slice(0, 3);
+  const revenueChart = getRevenueChart();
+  const topSellingProducts = getTopSellingProducts();
+  const revenuePeriodOptions = [
+    ["week", "Tuần này"],
+    ["month", "Tháng này"],
+    ["year", "Năm nay"]
+  ];
   dashboardShell.innerHTML = `
-    <div class="admin-dashboard-header">
-      <div>
-        <span class="admin-dashboard-kicker">Dashboard</span>
-        <h2>Bảng điều khiển quản trị</h2>
-      </div>
-      <label class="admin-dashboard-search">
-        <input type="search" placeholder="Tìm kiếm...">
-        <span>⌕</span>
-      </label>
-    </div>
     <div class="admin-stats" id="adminStats"></div>
     <div class="admin-dashboard-grid admin-dashboard-grid-clean">
       <article class="admin-chart-card admin-chart-card-main">
         <div class="admin-card-head">
-          <div><h3>Doanh thu</h3><p>Biểu đồ doanh thu theo ngày trong tháng</p></div>
-          <div class="admin-chart-controls"><select id="dashboardSalesFilter"><option>Tháng này</option><option>Tuần này</option><option>Năm nay</option></select></div>
+          <div><h3>Doanh thu</h3></div>
+          <div class="admin-chart-controls">
+            <select id="dashboardSalesFilter">
+              ${revenuePeriodOptions.map(([value, label]) => `<option value="${value}" ${adminRevenuePeriod === value ? "selected" : ""}>${label}</option>`).join("")}
+            </select>
+          </div>
         </div>
         <div class="admin-wave-chart">
-          <div class="admin-wave-yaxis"><span>800M</span><span>600M</span><span>400M</span><span>200M</span><span>0</span></div>
+          <div class="admin-wave-yaxis">${revenueChart.yAxisLabels.map((label) => `<span>${label}</span>`).join("")}</div>
           <div class="admin-wave-plot">
-            <svg viewBox="0 0 720 260" preserveAspectRatio="none" role="img" aria-label="Biểu đồ doanh thu">
-              <defs><linearGradient id="salesWaveFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ff6aa2" stop-opacity="0.3"/><stop offset="100%" stop-color="#ff6aa2" stop-opacity="0.04"/></linearGradient></defs>
-              <path class="wave-area" d="M0,218 C34,188 55,173 84,154 C112,137 134,76 168,106 C196,132 220,148 250,122 C284,92 306,72 338,104 C374,138 394,66 426,92 C462,118 482,176 514,150 C552,118 576,116 608,90 C646,58 682,34 720,40 L720,240 L0,240 Z"></path>
-              <path class="wave-line" d="M0,218 C34,188 55,173 84,154 C112,137 134,76 168,106 C196,132 220,148 250,122 C284,92 306,72 338,104 C374,138 394,66 426,92 C462,118 482,176 514,150 C552,118 576,116 608,90 C646,58 682,34 720,40"></path>
-              <circle cx="338" cy="104" r="6"></circle><text x="338" y="72">520.000.000đ</text>
+            <svg viewBox="0 0 720 260" preserveAspectRatio="none" role="img" aria-label="Biểu đồ doanh thu theo ngày">
+              <defs><linearGradient id="salesWaveFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ff6aa2" stop-opacity="0.28"/><stop offset="100%" stop-color="#ff6aa2" stop-opacity="0.03"/></linearGradient></defs>
+              <path class="wave-area" d="${revenueChart.areaPath}"></path>
+              <path class="wave-line" d="${revenueChart.linePath}"></path>
+              <g class="wave-points">
+                ${revenueChart.points.map((point) => {
+                  const tooltip = revenueChart.getTooltipPosition(point);
+                  return `
+                    <g class="wave-point">
+                      <circle class="wave-hit" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="16"></circle>
+                      <circle class="wave-dot" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="4"></circle>
+                      <g class="wave-tooltip">
+                        <rect x="${tooltip.x.toFixed(1)}" y="${tooltip.y.toFixed(1)}" width="256" height="84" rx="8"></rect>
+                        <text x="${(tooltip.x + 22).toFixed(1)}" y="${(tooltip.y + 32).toFixed(1)}">${point.tooltipDate}</text>
+                        <text x="${(tooltip.x + 22).toFixed(1)}" y="${(tooltip.y + 62).toFixed(1)}">Doanh thu: ${formatMoney(point.revenue)}</text>
+                      </g>
+                    </g>
+                  `;
+                }).join("")}
+              </g>
             </svg>
-            <div class="admin-wave-xaxis"><span>01</span><span>05</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div>
+            <div class="admin-wave-xaxis">${revenueChart.xAxisItems.map((item) => `<span style="left: ${item.left.toFixed(4)}%;">${item.label}</span>`).join("")}</div>
           </div>
         </div>
       </article>
       <article class="admin-category-card admin-order-ratio-card">
-        <div class="admin-card-head"><div><h3>Tỉ lệ đơn hàng</h3><p>Phân bổ theo trạng thái</p></div></div>
-        <div class="admin-pie-chart" aria-label="Tỉ lệ đơn hàng"><strong>${getCustomerOrders().length}</strong><span>Tổng đơn</span></div>
+        <div class="admin-card-head"><div><h3>Tỉ lệ đơn hàng</h3></div></div>
+        <div class="admin-pie-chart" aria-label="Tỉ lệ đơn hàng"><div class="admin-pie-center"><strong>${getCustomerOrders().length}</strong><span>Tổng đơn</span></div></div>
         <ul class="admin-pie-legend">
           <li><i></i>Đã xử lí <strong>69%</strong></li>
           <li><i></i>Đang xử lí <strong>20%</strong></li>
@@ -172,19 +376,41 @@ function renderAdminDashboard() {
         </ul>
       </article>
     </div>
-    <article class="admin-chart-card admin-recent-orders-card">
-      <div class="admin-card-head"><div><h3>Đơn hàng mới nhất</h3><p>Theo dõi nhanh các đơn vừa được đặt</p></div><a href="#adminOrders" onclick="showAdminSection('adminOrders')">Xem tất cả</a></div>
-      <div class="admin-dashboard-orders">
-        <div><span>Mã đơn</span><span>Khách hàng</span><span>Ngày đặt</span><span>Tổng tiền</span><span>Trạng thái</span></div>
-        ${recentOrders.length ? recentOrders.map((order) => {
-          const createdAt = new Date(order.createdAt);
-          return `<div><strong>${formatOrderCode(order, getCustomerOrders())}</strong><span>${order.customerName || "Khách hàng"}</span><span>${createdAt.toLocaleDateString("vi-VN")} ${createdAt.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</span><b>${formatMoney(order.total || 0)}</b><em class="order-status-pill ${getOrderStatusClass(order.status)}">${order.status || "Đang xử lí"}</em></div>`;
-        }).join("") : `<div class="admin-dashboard-order-empty"><span>Chưa có đơn hàng mới.</span></div>`}
-      </div>
-    </article>
+    <div class="admin-dashboard-bottom-grid">
+      <article class="admin-chart-card admin-recent-orders-card">
+        <div class="admin-card-head"><div><h3>Đơn hàng mới nhất</h3><p>Theo dõi nhanh các đơn vừa được đặt</p></div><a href="#adminOrders" onclick="showAdminSection('adminOrders')">Xem tất cả</a></div>
+        <div class="admin-dashboard-orders">
+          <div><span>Mã đơn</span><span>Khách hàng</span><span>Ngày đặt</span><span>Tổng tiền</span><span>Trạng thái</span></div>
+          ${recentOrders.length ? recentOrders.map((order) => {
+            const createdAt = new Date(order.createdAt);
+            return `<div><strong>${formatOrderCode(order, getCustomerOrders())}</strong><span>${order.customerName || "Khách hàng"}</span><span>${createdAt.toLocaleDateString("vi-VN")} ${createdAt.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</span><b>${formatMoney(order.total || 0)}</b><em class="order-status-pill ${getOrderStatusClass(order.status)}">${order.status || "Đang xử lí"}</em></div>`;
+          }).join("") : `<div class="admin-dashboard-order-empty"><span>Chưa có đơn hàng mới.</span></div>`}
+        </div>
+      </article>
+      <article class="admin-category-card admin-top-products-card">
+        <div class="admin-card-head"><div><h3>Top sản phẩm bán chạy</h3></div></div>
+        <div class="admin-top-products-list">
+          ${topSellingProducts.map((product, index) => `
+            <article class="admin-top-product-item">
+              <span class="admin-top-product-rank">${index + 1}</span>
+              <img src="${getAdminImageSrc(product.image)}" alt="${product.name}">
+              <div>
+                <strong>${product.name}</strong>
+                <small>Đã bán: ${product.sold}</small>
+              </div>
+              <b>${formatMoney(product.price)}</b>
+            </article>
+          `).join("")}
+        </div>
+      </article>
+    </div>
   `;
 
   renderAdminStats();
+  document.getElementById("dashboardSalesFilter")?.addEventListener("change", (event) => {
+    adminRevenuePeriod = event.target.value;
+    renderAdminDashboard();
+  });
 }
 
 function getFilteredAdminProducts() {
@@ -357,19 +583,18 @@ function renderAdminCustomers() {
   if (!table) return;
 
   const keyword = adminCustomerKeyword.trim().toLowerCase();
-  const users = getUsers()
-    .filter((user) => user.role !== "admin")
-    .filter((user) => !keyword || [user.firstName, user.lastName, user.email, user.phone, user.address].some((value) => String(value || "").toLowerCase().includes(keyword)));
+  const users = adminCustomerSeed
+    .filter((user) => !keyword || [user.email, user.phone].some((value) => String(value || "").toLowerCase().includes(keyword)));
 
   table.innerHTML = users.length ? users.map((user, index) => `
     <tr>
-      <td>${index + 1}</td>
-      <td><strong>${user.lastName || ""} ${user.firstName || ""}</strong><small>Khách hàng</small></td>
+      <td>${user.id}</td>
+      <td><strong>${user.name}</strong></td>
       <td>${user.email}</td>
-      <td>${user.phone || "Chưa cập nhật"}</td>
-      <td>${user.address || "Chưa cập nhật"}</td>
-      <td>${new Date(user.createdAt || Date.now()).toLocaleDateString("vi-VN")}</td>
-      <td><span class="admin-status-badge">Activated</span></td>
+      <td>${user.phone}</td>
+      <td>${user.address}</td>
+      <td>${user.createdAt}</td>
+      <td><span class="admin-customer-status ${user.status === "Hoạt động" ? "is-active" : user.status === "Tạm khóa" ? "is-paused" : "is-locked"}">${user.status}</span></td>
       <td class="admin-customer-actions"><button type="button" onclick="viewAdminCustomer('${user.id}')">Xem</button></td>
     </tr>
   `).join("") : `<tr><td colspan="8">Chưa có khách hàng.</td></tr>`;
@@ -388,8 +613,8 @@ function resetAdminCustomerSearch() {
 }
 
 function viewAdminCustomer(userId) {
-  const user = getUsers().find((item) => String(item.id) === String(userId));
-  showToast(user ? `Tài khoản: ${user.lastName || ""} ${user.firstName || ""}`.trim() : "Không tìm thấy tài khoản.");
+  const user = adminCustomerSeed.find((item) => String(item.id) === String(userId));
+  showToast(user ? `Tài khoản: ${user.name}` : "Không tìm thấy tài khoản.");
 }
 
 function getCustomerOrders() {
@@ -501,7 +726,7 @@ function renderAdminOrders() {
 
   if (!detailPanel) return;
   if (!selectedOrder) {
-    detailPanel.innerHTML = `<p class="admin-order-empty">Bấm nút tròn trong cột thao tác để xem chi tiết đơn hàng.</p>`;
+    detailPanel.innerHTML = "";
     return;
   }
 
@@ -521,7 +746,7 @@ function renderAdminOrders() {
     <section><h4>Thông tin đơn hàng</h4><div><span>Ngày đặt</span><strong>${createdAt.toLocaleDateString("vi-VN")} ${createdAt.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</strong></div><div><span>Thanh toán</span><strong>COD</strong></div><div><span>Vận chuyển</span><strong>Giao hàng nhanh</strong></div></section>
     <section class="admin-order-detail-items">
       <h4>Sản phẩm</h4>
-      ${items.map((item) => `<article><img src="${item.image}" alt="${item.name}"><div><strong>${item.name}</strong><small>${item.color || "Pastel"} - ${item.size || "M"}</small></div><span>x${item.quantity}</span><b>${formatMoney(item.price)}</b></article>`).join("") || "<p>Không có sản phẩm.</p>"}
+      ${items.map((item) => `<article><img src="${getAdminImageSrc(item.image)}" alt="${item.name}"><div><strong>${item.name}</strong><small>${item.color || "Pastel"} - ${item.size || "M"}</small></div><span>x${item.quantity}</span><b>${formatMoney(item.price)}</b></article>`).join("") || "<p>Không có sản phẩm.</p>"}
     </section>
     <div class="admin-order-detail-total"><div><span>Tạm tính</span><strong>${formatMoney(subtotal)}</strong></div><div><span>Phí vận chuyển</span><strong>${shipping ? formatMoney(shipping) : "Miễn phí"}</strong></div><div class="total"><span>Tổng cộng</span><strong>${formatMoney(total)}</strong></div></div>
     <div class="admin-order-detail-actions"><button type="button" onclick="updateAdminOrderStatus('${selectedOrder.id}', 'Đã xử lí')">Cập nhật trạng thái</button><button type="button" onclick="updateAdminOrderStatus('${selectedOrder.id}', 'Đã hủy')">Hủy đơn</button></div>

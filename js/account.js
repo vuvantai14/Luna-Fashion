@@ -10,31 +10,75 @@ import {
 } from "./common.js";
 import { getCart, initCartControls } from "./cart.js";
 import { formatOrderCode, getOrderStatusClass } from "./orders.js";
-import { getOrders } from "./common.js";
+import { getOrders, saveOrders } from "./common.js";
 
 function getUserOrders(currentUser) {
-  return getOrders().filter((order) => order.customerId === currentUser.id || order.email === currentUser.email);
+  return getOrders().filter((order) => String(order.customerId) === String(currentUser.id) || order.email === currentUser.email);
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function getAccountImageSrc(image) {
+  const imagePath = String(image || "").trim();
+  if (!imagePath) return "../assets/product-1.jpg";
+  if (/^(https?:|data:|blob:)/.test(imagePath)) return imagePath;
+
+  const normalizedPath = imagePath.replace(/\\/g, "/");
+  const assetIndex = normalizedPath.lastIndexOf("assets/");
+  if (assetIndex !== -1) return `../${normalizedPath.slice(assetIndex)}`;
+
+  return normalizedPath;
 }
 
 function saveUserFromForm(container, callback) {
   const currentUser = getCurrentUser();
   const lastName = container.querySelector("#userLastNameInput")?.value.trim();
   const firstName = container.querySelector("#userFirstNameInput")?.value.trim();
+  const email = container.querySelector("#userEmailInput")?.value.trim().toLowerCase();
   const phone = container.querySelector("#userPhoneInput")?.value.trim();
   const address = container.querySelector("#userAddressInput")?.value.trim();
 
-  if (!lastName || !firstName) {
-    showCenterNotice("Vui lòng nhập đầy đủ họ và tên.", "error");
+  if (!lastName || !firstName || !email) {
+    showCenterNotice("Vui lòng nhập đầy đủ họ tên và email.", "error");
     return;
   }
 
-  const updatedUser = { ...currentUser, lastName, firstName, phone, address };
+  if (!isValidEmail(email)) {
+    showCenterNotice("Email chưa đúng định dạng.", "error");
+    return;
+  }
+
   const users = getUsers();
   const userIndex = users.findIndex((user) => user.id === currentUser.id);
-  if (userIndex !== -1) users[userIndex] = { ...users[userIndex], lastName, firstName, phone, address };
+  const emailExists = users.some((user) => user.email === email && user.id !== currentUser.id);
+  if (emailExists) {
+    showCenterNotice("Email này đã được tài khoản khác sử dụng.", "error");
+    return;
+  }
+
+  const updatedUser = { ...currentUser, lastName, firstName, email, phone, address };
+  if (userIndex !== -1) users[userIndex] = { ...users[userIndex], lastName, firstName, email, phone, address };
+
+  const orders = getOrders();
+  const updatedCustomerName = `${lastName || ""} ${firstName || ""}`.trim();
+  const updatedOrders = orders.map((order) => {
+    const isCurrentUserOrder = String(order.customerId) === String(currentUser.id) || order.email === currentUser.email;
+    if (!isCurrentUserOrder) return order;
+
+    return {
+      ...order,
+      customerName: updatedCustomerName,
+      email,
+      phone,
+      address
+    };
+  });
 
   setCurrentUser(updatedUser);
   saveUsers(users);
+  saveOrders(updatedOrders);
   showCenterNotice("Cập nhật thông tin thành công.", "success", callback);
 }
 
@@ -89,7 +133,13 @@ function accountMarkup(currentUser, mode = "page") {
                 <input type="text" id="userFirstNameInput" value="${currentUser.firstName || ""}" placeholder="Nhập tên">
               </div>
             </div>
-            <div><dt>Email</dt><dd>${currentUser.email}</dd></div>
+            <div>
+              <dt>Email</dt>
+              <dd class="user-view-value">${currentUser.email}</dd>
+              <div class="user-edit-fields">
+                <input type="email" id="userEmailInput" value="${currentUser.email || ""}" placeholder="Nhập email">
+              </div>
+            </div>
             <div>
               <dt>Số điện thoại</dt>
               <dd class="user-view-value">${currentUser.phone || "Chưa cập nhật"}</dd>
@@ -142,7 +192,7 @@ function accountMarkup(currentUser, mode = "page") {
               const firstItem = order.items?.[0];
               return `
                 <article>
-                  <img src="${firstItem?.image || "../assets/product-1.jpg"}" alt="${firstItem?.name || "Sản phẩm"}">
+                  <img src="${getAccountImageSrc(firstItem?.image)}" alt="${firstItem?.name || "Sản phẩm"}">
                   <div class="user-order-code">
                     <strong>${formatOrderCode(order, userOrders)}</strong>
                     <span>${createdAt.toLocaleDateString("vi-VN")}</span>

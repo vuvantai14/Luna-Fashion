@@ -627,3 +627,29 @@
     min-width: 460px;
   }
 }
+
+.user-recent-orders .order-status-pill,
+.user-recent-orders em {
+  min-height: 28px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.user-recent-orders .order-status-pill.is-success {
+  color: #059669;
+  background: #d9fbe8;
+}
+
+.user-recent-orders .order-status-pill.is-cancelled {
+  color: #e83f6f;
+  background: #ffe0eb;
+}
+
+.user-recent-orders .order-status-pill.is-pending {
+  color: #d97706;
+  background: #fff0d2;
+}
