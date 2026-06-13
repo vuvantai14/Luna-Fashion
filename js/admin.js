@@ -256,11 +256,6 @@ function renderAdminSidebar() {
       <span class="admin-nav-label">Cài đặt</span>
       <a href="#adminLogout" id="adminLogoutLink">Đăng xuất</a>
     </nav>
-    <div class="admin-account">
-      <strong>Admin mặc định</strong>
-      <span>admin@lunafashion.com</span>
-      <span>123456</span>
-    </div>
   `;
 }
 

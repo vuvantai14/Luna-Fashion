@@ -99,6 +99,10 @@ export function renderProductDetail() {
   if (detailImage) {
     detailImage.src = product.image;
     detailImage.alt = product.name;
+    detailImage.onerror = () => {
+      detailImage.onerror = null;
+      detailImage.src = "../assets/product-1.jpg";
+    };
   }
   if (detailPrice) detailPrice.textContent = formatMoney(product.price);
   if (detailOldPrice) {
@@ -122,6 +126,19 @@ export function renderProductDetail() {
       button.classList.add("active");
       if (detailImage) detailImage.src = button.dataset.image;
     });
+  });
+
+  colorOptions?.querySelectorAll("button").forEach((button) => {
+    button.dataset.image = product.image;
+    const image = button.querySelector("img");
+    if (image) {
+      image.src = product.image;
+      image.alt = button.dataset.color || product.name;
+      image.onerror = () => {
+        image.onerror = null;
+        image.src = "../assets/product-1.jpg";
+      };
+    }
   });
 
   colorOptions?.querySelectorAll("button").forEach((button) => {
