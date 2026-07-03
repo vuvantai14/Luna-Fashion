@@ -1,176 +1,115 @@
-﻿﻿# Luna Fashion
+# Ni Sport
 
-## Giới thiệu dự án
-
-Luna Fashion la website ban thoi trang nam va nu dang front-end tinh. Du an mo phong mot cua hang online voi cac luong chinh nhu xem san pham, loc/tim kiem, them vao gio hang, dat hang, quan ly tai khoan nguoi dung va trang quan tri cho admin.
-
-Website phù hợp cho đồ án HTML/CSS/JavaScript, demo giao diện thương mại điện tử hoặc làm nền để phát triển tiếp với backend thật.
+Ni Sport là website bán quần áo bóng đá và phụ kiện bóng đá. Project gồm frontend HTML/CSS/JavaScript tĩnh và backend Java Spring Boot kết nối PostgreSQL.
 
 ## Công nghệ sử dụng
 
-- HTML5
-- CSS3
-- JavaScript ES6 Module
-- LocalStorage để lưu người dùng, giỏ hàng, đơn hàng và trạng thái quản trị sản phẩm
-- Responsive UI cho desktop và mobile
-- Git/GitHub nếu dùng để quản lý mã nguồn
+- HTML5, CSS3, JavaScript ES6 Module
+- Java 21, Spring Boot 3, Maven
+- Spring Security JWT
+- Spring Data JPA
+- PostgreSQL database `ni_sport`
+- Flyway migration
+- Swagger/OpenAPI
 
 ## Cấu trúc thư mục
 
 ```text
-Luna-Fashion/
-|-- html/                   # Toàn bộ file HTML của website
-|   |-- index.html           # Trang chủ
-|   |-- products.html        # Danh sách sản phẩm
-|   |-- product-detail.html  # Chi tiết sản phẩm
-|   |-- cart.html            # Giỏ hàng và đặt hàng
-|   |-- orders.html          # Đơn hàng của người dùng
-|   |-- account.html         # Trang tài khoản
-|   |-- login.html           # Đăng nhập
-|   |-- register.html        # Đăng ký
-|   |-- admin.html           # Trang quản trị
-|   |-- brand.html           # Giới thiệu thương hiệu
-|   |-- collection.html      # Bộ sưu tập
-|   |-- contact.html         # Liên hệ
-|   `-- sale.html            # Khuyến mãi
-|-- css/                     # CSS dùng chung và CSS theo từng trang
-|-- js/                      # JavaScript ES6 module theo từng chức năng/trang
-`-- assets/                  # Ảnh banner, ảnh sản phẩm, SVG danh mục và tài nguyên tĩnh
+nisport/
+|-- backend/                 # Backend Spring Boot
+|-- frontend/                # Frontend tĩnh chạy bằng Live Server
+|   |-- index.html            # File redirect sang pages/index.html
+|   |-- pages/                # Trang khách hàng
+|   |   |-- index.html         # Trang chu that
+|   |   |-- products.html
+|   |   |-- product-detail.html
+|   |   |-- cart.html
+|   |   |-- orders.html
+|   |   |-- checkout.html      # Redirect den cart/checkout hien co
+|   |   |-- login.html
+|   |   |-- register.html
+|   |   |-- account.html
+|   |   |-- collection.html
+|   |   |-- contact.html
+|   |   |-- brand.html
+|   |   `-- sale.html
+|   |-- admin/
+|   |   `-- dashboard.html    # Trang quản trị hiện có
+|   |-- css/                  # CSS dùng chung và theo trang
+|   |-- js/                   # JavaScript ES6 module
+|   `-- assets/               # Banner, ảnh danh mục, ảnh sản phẩm
+|-- AGENTS.md
+|-- PROJECT_STAGES.md
+`-- BACKEND_DESIGN.md
 ```
 
+## Chức năng chính
 
-## Chức năng chính từng trang
+### Frontend khách hàng
 
-### Trang chủ 
+- Trang chủ giới thiệu Ni Sport và sản phẩm nổi bật.
+- Trang sản phẩm load category/product từ backend.
+- Trang chi tiết sản phẩm load product detail, variants, ảnh và sản phẩm liên quan từ backend.
+- Login/register/logout kết nối Auth API.
+- Cart kết nối Cart API.
+- Checkout COD tạo order qua Order API.
+- Orders page hiển thị danh sách, chi tiết và hủy đơn `PENDING`.
 
-- Hiển thị banner hero có chuyển slide tự động và nút điều hướng.
-- Hiển thị các điểm nổi bật của cửa hàng.
-- Hiển thị danh mục sản phẩm và cho phép bấm để lọc/đi tới khu vực sản phẩm.
-- Hiển thị danh sách sản phẩm nổi bật từ dữ liệu 
-- Có khu vực khuyến mãi, đánh giá và thông tin liên hệ trên trang.
-- Dùng chung header, giỏ hàng, quick view và trạng thái đăng nhập.
+### Frontend admin
 
-### Trang sản phẩm 
-- Hiển thị danh sách sản phẩm.
-- Tìm kiếm sản phẩm theo tên.
-- Lọc sản phẩm theo danh mục, khoảng giá và màu.
-- Phân trang danh sách sản phẩm.
-- Thêm sản phẩm vào giỏ hàng.
-- Xem nhanh sản phẩm bằng modal.
+- Trang admin hiện nằm tại `frontend/admin/dashboard.html`.
+- UI admin hiện có dashboard, sản phẩm, đơn hàng và khách hàng.
+- Admin demo: `admin@nisport.com / 123456`.
 
+### Backend
 
-### Trang chi tiết sản phẩm 
+- Health API.
+- Auth/JWT.
+- Public category/product API.
+- Admin category/product/order/dashboard API.
+- Cart API.
+- Order API.
+- Account/address API.
 
+## Cách chạy backend
 
-- Hiển thị ảnh, giá, giá cũ, mô tả, thông số sản phẩm và nhãn giảm giá/hàng mới.
-- Chọn size trước khi thêm vào giỏ hàng.
-- Chọn màu sản phẩm.
-- Thêm sản phẩm vào giỏ hàng và chuyển sang trang giỏ hàng.
-- Hiển thị sản phẩm liên quan cùng danh mục.
+Yêu cầu PostgreSQL đã có database `ni_sport`.
 
-### Trang giỏ hàng 
+```bash
+cd backend
+mvn clean spring-boot:run
+```
 
-- Xem các sản phẩm đang có trong giỏ hàng.
-- Tăng/giảm số lượng sản phẩm.
-- Xóa từng sản phẩm khỏi giỏ hàng.
-- Xóa toàn bộ giỏ hàng.
-- Tính tạm tính, phí vận chuyển và tổng tiền.
-- Phí vận chuyển miễn phí khi tạm tính từ 500.000đ trở lên; dưới mức này tính 30.000đ.
-- Đặt hàng từ giỏ hàng nếu người dùng đã đăng nhập.
-- Không cho tài khoản admin đặt hàng.
-- Sau khi đặt hàng thành công, đơn hàng được lưu vào LocalStorage và giỏ hàng được làm rỗng.
+Kiểm tra:
 
-### Trang đăng nhập 
+- Health: `http://localhost:8080/api/v1/health`
+- Swagger: `http://localhost:8080/swagger-ui.html`
 
-- Đăng nhập người dùng bằng email và mật khẩu đã lưu trong LocalStorage.
-- Đăng nhập admin bằng tài khoản mẫu.
-- Kiểm tra thiếu email/mật khẩu và kiểm tra sai thông tin đăng nhập.
+## Cách chạy frontend
 
-
-### Trang đăng ký 
-
-- Tạo tài khoản khách hàng mới.
-- Validate thông tin bắt buộc.
-- Validate định dạng email.
-- Validate mật khẩu tối thiểu 6 ký tự.
-- Kiểm tra email đã tồn tại.
-- Sau khi đăng ký thành công, chuyển người dùng về trang đăng nhập.
-
-### Trang tài khoản -
-- Xem thông tin người dùng hiện tại.
-- Chỉnh sửa họ tên, số điện thoại và địa chỉ.
-- Đăng xuất tài khoản.
-- Hiển thị địa chỉ mặc định và các đơn hàng gần đây nếu có.
-
-### Trang đơn hàng 
-
-- Hiển thị danh sách đơn hàng của người dùng đang đăng nhập.
-- Hiển thị trạng thái đơn hàng.
-- Chọn một đơn hàng để xem chi tiết.
-- Xem thông tin giao hàng, sản phẩm trong đơn, phí vận chuyển, giảm giá và tổng tiền.
-- Nếu chưa đăng nhập hoặc chưa có đơn hàng, trang hiển thị trạng thái trống phù hợp.
-
-### Trang admin 
-
-- Nếu chưa đăng nhập admin, trang hiển thị thông báo không có quyền và tài khoản mẫu.
-- Dashboard thống kê doanh thu, đơn hàng, khách hàng và sản phẩm.
-- Hiển thị biểu đồ doanh thu dạng SVG tĩnh và tỷ lệ đơn hàng.
-- Quản lý sản phẩm:
-  - Hiển thị danh sách sản phẩm.
-  - Lọc/tìm kiếm sản phẩm theo danh mục, giá, nhãn và từ khóa.
-  - Thêm sản phẩm mới.
-  - Sửa sản phẩm.
-  - Xóa/ẩn sản phẩm khỏi danh sách hiển thị.
-- Quản lý khách hàng:
-  - Hiển thị danh sách tài khoản khách hàng.
-  - Tìm kiếm khách hàng.
-  - Xem nhanh thông tin tài khoản bằng toast.
-- Quản lý đơn hàng:
-  - Hiển thị danh sách đơn hàng của khách hàng.
-  - Lọc theo trạng thái.
-  - Lọc theo khoảng ngày.
-  - Tìm kiếm theo mã đơn, khách hàng, email, trạng thái hoặc tổng tiền.
-  - Xem chi tiết đơn hàng.
-  - Cập nhật trạng thái đơn hàng thành đã xử lí hoặc đã hủy.
-
-### Trang thương hiệu 
-
-- Hiển thị câu chuyện thương hiệu Luna Fashion.
-- Trình bày phần giới thiệu, điểm nổi bật và thống kê thương hiệu.
-- Dùng chung header, giỏ hàng và trạng thái tài khoản.
-
-### Trang bộ sưu tập 
-
-- Hiển thị các bộ sưu tập/thư mục thời trang.
-- Mỗi bộ sưu tập có ảnh, mô tả và liên kết tới danh sách sản phẩm tương ứng.
-- Dùng chung header, giỏ hàng và trạng thái tài khoản.
-
-### Trang liên hệ 
-- Hiển thị thông tin liên hệ của cửa hàng.
-- Có form liên hệ gồm họ tên, email và nội dung.
-- Validate trường bắt buộc.
-- Hiển thị thông báo thành công hoặc lỗi ngay trên giao diện.
-- Form chỉ xử lý ở front-end, không gửi dữ liệu lên server.
-
-### Trang khuyến mãi
-- Hiển thị banner khuyến mãi.
-- Trình bày các chương trình ưu đãi, mã giảm giá/dịch vụ nổi bật.
-- Có các khu vực dịch vụ như đổi trả, giao hàng, thanh toán và hỗ trợ.
-- Dùng chung header, giỏ hàng và trạng thái tài khoản.
-
-## Tài khoản admin mẫu
-
-- Email: `admin@lunafashion.com`
-- Mật khẩu: `123456`
-
-
-
-## Cách chạy dự án
-
-1. Mở thư mục dự án bằng Visual Studio Code.
+1. Mở project bằng Visual Studio Code.
 2. Cài extension **Live Server** nếu chưa có.
-3. Bấm chuột phải vào `html/index.html`.
-4. Chọn **Open with Live Server**.
-5. Truy cập các trang như `products.html`, `cart.html`, `login.html` hoặc `admin.html` từ menu hoặc URL.
+3. Mở thư mục `frontend/`.
+4. Bấm chuột phải vào `frontend/index.html`.
+5. Chọn **Open with Live Server**.
 
-Có thể mở trực tiếp các file HTML trong thư mục `html/` bằng trình duyệt, nhưng dùng Live Server sẽ phù hợp hơn khi làm việc với ES6 module.
+Trang chính:
+
+```text
+frontend/index.html
+```
+`frontend/index.html` chi la file chuyen huong. Trang chu that nam tai:
+
+```text
+frontend/pages/index.html
+```
+
+Khi Live Server chay tu thu muc `frontend/`, cac trang su dung assets trong `frontend/assets/`.
+Khi Live Server chạy từ thư mục `frontend/`, ảnh sản phẩm dạng `/assets/products/product-1.jpg` sẽ trỏ đúng tới `frontend/assets/products/product-1.jpg`.
+
+## Ghi chú
+
+- Backend API base URL hiện là `http://localhost:8080/api/v1`.
+- Package Java vẫn giữ `com.lunafashion` để tránh lỗi import hàng loạt.
+- Không sửa Flyway migration đã applied; nếu cần thay đổi database thì tạo migration version mới.
+- Xem `PROJECT_STAGES.md` để biết tiến độ và stage hiện tại.

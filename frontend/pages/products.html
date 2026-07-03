@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>San pham - Ni Sport</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <span>Freeship don tu 500K</span>
+      <span>Ni Sport - San sang ra san</span>
+      <span>Hotline: 0909 123 456</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-wrapper">
+      <a href="./index.html" class="logo">
+        <span class="logo-main">Ni<span>Sport</span></span>
+        <small>San sang ra san</small>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Mo menu">Menu</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="./index.html">Trang chu</a>
+        <a href="./products.html" class="active">San pham</a>
+        <a href="./collection.html">Danh muc</a>
+        <a href="./orders.html">Don hang cua toi</a>
+        <a href="./contact.html">Lien he</a>
+      </nav>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Tim ao, quan, phu kien..." />
+          <span>Tim</span>
+        </div>
+        <a class="login-link" href="./login.html" aria-label="Tai khoan">
+          <span class="account-mark">TK</span>
+          <small>Tai khoan</small>
+        </a>
+        <button class="cart-button" id="cartOpenBtn" aria-label="Gio hang">
+          <span class="cart-mark">Gio</span>
+          <span id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="catalog-page">
+    <section class="catalog-hero">
+      <div class="container catalog-hero-inner">
+        <div class="catalog-hero-copy">
+          <span class="catalog-kicker">Ni Sport Collection 2026</span>
+          <h1>Quan Ao Bong Da Moi Nhat</h1>
+          <p>Ao dau, quan dau, bo thi dau, do tap va phu kien cho cau thu phong trao, doi bong va co dong vien.</p>
+          <div class="catalog-hero-actions">
+            <a href="#products" class="btn btn-primary">Mua ngay</a>
+            <a href="./sale.html" class="btn btn-light">Xem khuyen mai</a>
+          </div>
+        </div>
+        <div class="catalog-hero-media" aria-hidden="true">
+          <img src="../assets/products/product-1.jpg" alt="">
+          <div>
+            <strong>50+</strong>
+            <span>mau san pham ra san</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-category-strip">
+      <div class="container">
+        <div class="filter-bar catalog-tabs" aria-label="Danh muc san pham">
+          <button class="filter-btn active" data-gender="ALL" data-category-id="all">Tat ca</button>
+          <button class="filter-btn" data-gender="ALL" data-category-id="1">Ao bong da</button>
+          <button class="filter-btn" data-gender="ALL" data-category-id="2">Quan bong da</button>
+          <button class="filter-btn" data-gender="ALL" data-category-id="3">Bo do bong da</button>
+          <button class="filter-btn" data-gender="ALL" data-category-id="4">Do tap</button>
+          <button class="filter-btn" data-gender="ALL" data-category-id="5">Phu kien</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section products-section" id="products">
+      <div class="container">
+        <div class="products-layout">
+          <aside class="product-filter-sidebar">
+            <div class="filter-sidebar-head">
+              <div>
+                <span>Filter</span>
+                <h3>Bo loc san pham</h3>
+              </div>
+              <button type="button" id="clearProductFilters">Xoa loc</button>
+            </div>
+
+            <div class="filter-group filter-search-group">
+              <h4>Tim kiem</h4>
+              <input type="search" id="productSearchInput" placeholder="Nhap ten san pham">
+            </div>
+
+            <div class="filter-group">
+              <h4>Khoang gia</h4>
+              <label><input type="radio" name="priceFilter" value="all" checked> Tat ca gia</label>
+              <label><input type="radio" name="priceFilter" value="0-250000"> Duoi 250.000d</label>
+              <label><input type="radio" name="priceFilter" value="250000-500000"> 250.000d - 500.000d</label>
+              <label><input type="radio" name="priceFilter" value="500000-99999999"> Tren 500.000d</label>
+            </div>
+
+            <div class="filter-group">
+              <h4>Size</h4>
+              <div class="filter-chip-grid">
+                <label><input type="checkbox" name="sizeFilter" value="S"><span>S</span></label>
+                <label><input type="checkbox" name="sizeFilter" value="M"><span>M</span></label>
+                <label><input type="checkbox" name="sizeFilter" value="L"><span>L</span></label>
+                <label><input type="checkbox" name="sizeFilter" value="XL"><span>XL</span></label>
+                <label><input type="checkbox" name="sizeFilter" value="FREE_SIZE"><span>Free</span></label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <h4>Loai san pham</h4>
+              <label><input type="radio" name="sidebarCategory" value="all" checked> Tat ca</label>
+              <label><input type="radio" name="sidebarCategory" value="1"> Ao bong da</label>
+              <label><input type="radio" name="sidebarCategory" value="2"> Quan bong da</label>
+              <label><input type="radio" name="sidebarCategory" value="3"> Bo do bong da</label>
+              <label><input type="radio" name="sidebarCategory" value="4"> Do tap</label>
+              <label><input type="radio" name="sidebarCategory" value="5"> Phu kien</label>
+            </div>
+
+            <div class="filter-group">
+              <h4>Mau sac</h4>
+              <div class="color-filter-list">
+                <label><input type="checkbox" name="colorFilter" value="Black"><span style="--swatch:#0f172a"></span> Black</label>
+                <label><input type="checkbox" name="colorFilter" value="White"><span style="--swatch:#ffffff"></span> White</label>
+                <label><input type="checkbox" name="colorFilter" value="Beige"><span style="--swatch:#d6c4a8"></span> Beige</label>
+                <label><input type="checkbox" name="colorFilter" value="Brown"><span style="--swatch:#7c4a2d"></span> Brown</label>
+              </div>
+            </div>
+
+            <button class="filter-search-btn" type="button" id="applyProductFilters">Ap dung bo loc</button>
+          </aside>
+
+          <div class="products-main">
+            <div class="catalog-toolbar">
+              <div>
+                <span class="catalog-breadcrumb"><a href="./index.html">Trang chu</a> / San pham</span>
+                <h2>San pham Ni Sport</h2>
+                <p id="productResultCount">Dang tai san pham...</p>
+              </div>
+              <label class="catalog-sort">
+                Sap xep
+                <select id="productSortSelect">
+                  <option value="featured">Noi bat</option>
+                  <option value="price-asc">Gia tang dan</option>
+                  <option value="price-desc">Gia giam dan</option>
+                  <option value="name-asc">Ten A-Z</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="product-grid" id="productGrid"></div>
+            <p class="empty-message" id="emptyMessage">Khong tim thay san pham phu hop.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrapper">
+      <div>
+        <a href="./index.html" class="logo footer-logo">
+          <span class="logo-main">Ni<span>Sport</span></span>
+          <small>San sang ra san</small>
+        </a>
+        <p>Trang phuc bong da va phu kien cho moi tran dau.</p>
+      </div>
+      <div>
+        <h4>Thong tin</h4>
+        <a href="./products.html">San pham</a>
+        <a href="./collection.html">Danh muc</a>
+        <a href="./contact.html">Lien he</a>
+      </div>
+      <div>
+        <h4>Chinh sach</h4>
+        <a href="#">Mua hang</a>
+        <a href="#">Doi size</a>
+        <a href="#">Van chuyen</a>
+      </div>
+      <div>
+        <h4>Theo doi shop</h4>
+        <p>Facebook / Instagram / TikTok</p>
+        <p>Hotline: 0909 123 456</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Gio hang cua ban</h3>
+      <button id="cartCloseBtn">Dong</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span>Tong tien:</span><strong id="cartTotal">0d</strong></div>
+      <button class="btn btn-primary checkout-btn" id="checkoutBtn">Thanh toan</button>
+    </div>
+  </aside>
+  <div class="quick-modal" id="quickModal">
+    <div class="quick-content">
+      <button class="quick-close" id="quickCloseBtn">Dong</button>
+      <div id="quickViewBody"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script type="module" src="../js/products.js"></script>
+</body>
+</html>

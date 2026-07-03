@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dang nhap - Ni Sport</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+<body class="auth-body">
+  <main class="auth-page auth-login">
+    <a class="auth-close" href="./index.html" aria-label="Ve trang chu">x</a>
+    <section class="auth-card">
+      <a href="./index.html" class="auth-logo">
+        <span class="logo-main">Ni<span>Sport</span></span>
+        <small>San sang ra san</small>
+      </a>
+      <div class="auth-tabs">
+        <a class="active" href="./login.html">Dang nhap</a>
+        <a href="./register.html">Dang ky</a>
+      </div>
+      <p class="auth-note">Dang nhap de quan ly gio hang, don hang va tai khoan Ni Sport.</p>
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="auth-row">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@nisport.com" />
+        </div>
+        <div class="auth-row">
+          <label for="loginPassword">Mat khau</label>
+          <div class="password-field">
+            <input type="password" id="loginPassword" placeholder="Nhap mat khau" />
+            <button type="button" aria-label="Hien mat khau">Hien</button>
+          </div>
+        </div>
+        <button class="auth-submit" type="submit">Dang nhap</button>
+        <p class="auth-message" id="loginMessage"></p>
+        <div class="auth-divider"><span>Admin demo: admin@nisport.com / 123456</span></div>
+        <a class="auth-alt" href="./register.html">
+          <span>Chua co tai khoan?</span>
+          <strong>Tao tai khoan moi</strong>
+        </a>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="../js/auth.js"></script>
+</body>
+</html>
+

@@ -1,18 +1,18 @@
-# AGENTS.md
+﻿# AGENTS.md
 
 ## Project Overview
 
-Project hiện tại là **Ni Sport**.
+Project hiá»‡n táº¡i lĂ  **Ni Sport**.
 
-Ni Sport là website bán quần áo bóng đá và phụ kiện bóng đá, gồm:
+Ni Sport lĂ  website bĂ¡n quáº§n Ă¡o bĂ³ng Ä‘Ă¡ vĂ  phá»¥ kiá»‡n bĂ³ng Ä‘Ă¡, gá»“m:
 
-- Áo bóng đá
-- Quần bóng đá
-- Bộ đồ bóng đá
-- Đồ tập bóng đá
-- Phụ kiện bóng đá
+- Ăo bĂ³ng Ä‘Ă¡
+- Quáº§n bĂ³ng Ä‘Ă¡
+- Bá»™ Ä‘á»“ bĂ³ng Ä‘Ă¡
+- Äá»“ táº­p bĂ³ng Ä‘Ă¡
+- Phá»¥ kiá»‡n bĂ³ng Ä‘Ă¡
 
-Project trước đây có tên Luna Fashion, nhưng hiện đã đổi concept sang Ni Sport. Không dùng tên Luna Fashion trong nội dung hiển thị mới, trừ các migration cũ đã applied.
+Project trÆ°á»›c Ä‘Ă¢y cĂ³ tĂªn Luna Fashion, nhÆ°ng hiá»‡n Ä‘Ă£ Ä‘á»•i concept sang Ni Sport. KhĂ´ng dĂ¹ng tĂªn Luna Fashion trong ná»™i dung hiá»ƒn thá»‹ má»›i, trá»« cĂ¡c migration cÅ© Ä‘Ă£ applied.
 
 ## Tech Stack
 
@@ -31,35 +31,39 @@ Project trước đây có tên Luna Fashion, nhưng hiện đã đổi concept 
 ## Project Structure
 
 - `backend/`: backend Spring Boot.
-- `html/`: các trang HTML frontend.
-- `css/`: stylesheet frontend.
-- `js/`: JavaScript frontend.
-- `assets/`: hình ảnh và tài nguyên tĩnh.
+- `frontend/`: frontend HTML/CSS/JavaScript tĩnh.
+- `frontend/index.html`: file redirect sang `frontend/pages/index.html`.
+- `frontend/pages/`: các trang khách hàng.
+- `frontend/pages/index.html`: trang chủ thật.
+- `frontend/admin/`: trang quản trị hiện có.
+- `frontend/css/`: stylesheet frontend.
+- `frontend/js/`: JavaScript frontend.
+- `frontend/assets/`: hình ảnh và tài nguyên tĩnh.
 
 Không sửa frontend nếu task không yêu cầu rõ ràng.
 
 ## Database Rules
 
 - Database name: `ni_sport`.
-- Không sửa migration Flyway đã applied như `V1` hoặc `V3` để tránh lỗi checksum.
-- Nếu cần thay đổi database, tạo migration mới với version tiếp theo.
-- File SQL full nếu có chỉ dùng cho dev/reset thủ công.
-- Không đưa file SQL full vào `src/main/resources/db/migration` nếu Flyway đã chạy.
+- KhĂ´ng sá»­a migration Flyway Ä‘Ă£ applied nhÆ° `V1` hoáº·c `V3` Ä‘á»ƒ trĂ¡nh lá»—i checksum.
+- Náº¿u cáº§n thay Ä‘á»•i database, táº¡o migration má»›i vá»›i version tiáº¿p theo.
+- File SQL full náº¿u cĂ³ chá»‰ dĂ¹ng cho dev/reset thá»§ cĂ´ng.
+- KhĂ´ng Ä‘Æ°a file SQL full vĂ o `src/main/resources/db/migration` náº¿u Flyway Ä‘Ă£ cháº¡y.
 
 ## Coding Rules
 
-- Không đổi package Java `com.lunafashion`.
-- Không trả entity trực tiếp từ controller.
-- Luôn dùng DTO cho API response.
-- Response thành công dùng `ApiResponse`.
-- Lỗi dùng các exception sẵn có như `BadRequestException`, `ResourceNotFoundException`, `UnauthorizedException`.
-- Không dùng `@Data` cho JPA entity.
-- Tiền dùng `BigDecimal`.
-- Enum dùng `@Enumerated(EnumType.STRING)`.
-- Quan hệ entity dùng `FetchType.LAZY`.
-- Public product/category API không cần JWT.
-- Admin API phải yêu cầu role `ADMIN`.
-- Không phá Auth/JWT khi làm các giai đoạn sau.
+- KhĂ´ng Ä‘á»•i package Java `com.lunafashion`.
+- KhĂ´ng tráº£ entity trá»±c tiáº¿p tá»« controller.
+- LuĂ´n dĂ¹ng DTO cho API response.
+- Response thĂ nh cĂ´ng dĂ¹ng `ApiResponse`.
+- Lá»—i dĂ¹ng cĂ¡c exception sáºµn cĂ³ nhÆ° `BadRequestException`, `ResourceNotFoundException`, `UnauthorizedException`.
+- KhĂ´ng dĂ¹ng `@Data` cho JPA entity.
+- Tiá»n dĂ¹ng `BigDecimal`.
+- Enum dĂ¹ng `@Enumerated(EnumType.STRING)`.
+- Quan há»‡ entity dĂ¹ng `FetchType.LAZY`.
+- Public product/category API khĂ´ng cáº§n JWT.
+- Admin API pháº£i yĂªu cáº§u role `ADMIN`.
+- KhĂ´ng phĂ¡ Auth/JWT khi lĂ m cĂ¡c giai Ä‘oáº¡n sau.
 
 ## Current Progress
 
@@ -106,21 +110,22 @@ admin@nisport.com / 123456
 
 ## Verification After Backend Changes
 
-Sau mỗi lần chỉnh backend, cần kiểm tra:
+Sau má»—i láº§n chá»‰nh backend, cáº§n kiá»ƒm tra:
 
 - `mvn test` pass.
-- Backend chạy được bằng `mvn clean spring-boot:run`.
-- Health API chạy được.
-- Swagger mở được.
-- Login admin `admin@nisport.com / 123456` vẫn hoạt động.
-- `/api/v1/auth/me` hoạt động với Bearer token.
+- Backend cháº¡y Ä‘Æ°á»£c báº±ng `mvn clean spring-boot:run`.
+- Health API cháº¡y Ä‘Æ°á»£c.
+- Swagger má»Ÿ Ä‘Æ°á»£c.
+- Login admin `admin@nisport.com / 123456` váº«n hoáº¡t Ä‘á»™ng.
+- `/api/v1/auth/me` hoáº¡t Ä‘á»™ng vá»›i Bearer token.
 
 ## Output Rule
 
-Sau khi hoàn thành task, luôn báo lại:
+Sau khi hoĂ n thĂ nh task, luĂ´n bĂ¡o láº¡i:
 
 - Files created.
 - Files modified.
 - Commands run.
 - Test result.
-- Endpoints cần test thủ công.
+- Endpoints cáº§n test thá»§ cĂ´ng.
+
