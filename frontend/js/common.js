@@ -1,7 +1,7 @@
-import { clearStoredAuth, getCurrentUserFromApi, getStoredUser, removeToken, setStoredUser } from "./api.js";
+﻿import { clearStoredAuth, getCurrentUserFromApi, getStoredUser, removeToken, setStoredUser } from "./api.js";
 
 export const APP_NAME = "Ni Sport";
-export const APP_SLOGAN = "San sang ra san";
+export const APP_SLOGAN = "Sẵn sàng ra sân";
 export const ADMIN_EMAIL = "admin@nisport.com";
 
 export function getData(key, fallback = null) {
@@ -18,7 +18,7 @@ export function saveData(key, value) {
 }
 
 export function formatMoney(number) {
-  return Number(number || 0).toLocaleString("vi-VN") + "d";
+  return Number(number || 0).toLocaleString("vi-VN") + "đ";
 }
 
 export const formatCurrency = formatMoney;
@@ -28,7 +28,7 @@ export function normalizeText(value = "") {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/d/g, "d");
+    .replace(/đ/g, "d");
 }
 
 export function getUsers() {
@@ -142,8 +142,8 @@ function renderBranding() {
 }
 
 function displayName(user) {
-  if (!user) return "Tai khoan";
-  return user.fullName || user.firstName || user.email || "Tai khoan";
+  if (!user) return "Tài khoản";
+  return user.fullName || user.firstName || user.email || "Tài khoản";
 }
 
 export function updateLoginLinks() {
@@ -152,26 +152,26 @@ export function updateLoginLinks() {
 
   document.querySelectorAll(".login-link").forEach((link) => {
     if (!currentUser) {
-      link.innerHTML = `<span class="account-mark">TK</span><small>Tai khoan</small>`;
+      link.innerHTML = `<span class="account-mark">TK</span><small>Tài khoản</small>`;
       link.href = pageUrl("login.html");
-      link.setAttribute("aria-label", "Tai khoan");
+      link.setAttribute("aria-label", "Tài khoản");
       return;
     }
 
-    const label = displayName(currentUser).split(" ").slice(-1)[0] || "Tai khoan";
+    const label = displayName(currentUser).split(" ").slice(-1)[0] || "Tài khoản";
     link.innerHTML = `<span class="account-mark">TK</span><small>${label}</small>`;
     link.href = "#account-menu";
-    link.setAttribute("aria-label", `Tai khoan ${displayName(currentUser)}`);
+    link.setAttribute("aria-label", `Tài khoản ${displayName(currentUser)}`);
 
     const actions = link.closest(".header-actions");
     if (actions) {
       const menu = document.createElement("div");
       menu.className = "account-dropdown";
       menu.innerHTML = `
-        <a href="${pageUrl("account.html")}">Thong tin ca nhan</a>
-        <a href="${pageUrl("orders.html")}">Don hang cua toi</a>
-        ${String(currentUser.role).toUpperCase() === "ADMIN" ? `<a href="${adminUrl("dashboard.html")}">Quan tri admin</a>` : ""}
-        <button type="button" data-logout-button>Dang xuat</button>
+        <a href="${pageUrl("account.html")}">Thông tin cá nhân</a>
+        <a href="${pageUrl("orders.html")}">Đơn hàng của tôi</a>
+        ${String(currentUser.role).toUpperCase() === "ADMIN" ? `<a href="${adminUrl("dashboard.html")}">Quản trị admin</a>` : ""}
+        <button type="button" data-logout-button>Đăng xuất</button>
       `;
       actions.appendChild(menu);
       menu.querySelector("[data-logout-button]")?.addEventListener("click", () => logout(pageUrl("login.html")));

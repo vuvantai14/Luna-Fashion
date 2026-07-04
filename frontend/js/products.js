@@ -1,71 +1,71 @@
-import { apiRequest, resolveAssetUrl } from "./api.js";
+﻿import { apiRequest, resolveAssetUrl } from "./api.js";
 import { formatMoney, getData, initCommonLayout, normalizeText, pageUrl, saveData, showToast } from "./common.js";
 
 export let productCategories = [
-  { id: 1, name: "Ao bong da", slug: "ao-bong-da" },
-  { id: 2, name: "Quan bong da", slug: "quan-bong-da" },
-  { id: 3, name: "Bo do bong da", slug: "bo-do-bong-da" },
-  { id: 4, name: "Do tap bong da", slug: "do-tap-bong-da" },
-  { id: 5, name: "Phu kien", slug: "phu-kien" }
+  { id: 1, name: "Áo bóng đá", slug: "ao-bong-da" },
+  { id: 2, name: "Quần bóng đá", slug: "quan-bong-da" },
+  { id: 3, name: "Bộ đồ bóng đá", slug: "bo-do-bong-da" },
+  { id: 4, name: "Đồ tập bóng đá", slug: "do-tap-bong-da" },
+  { id: 5, name: "Phụ kiện", slug: "phu-kien" }
 ];
 
 export const genderLabels = {
   MALE: "Nam",
-  FEMALE: "Nu",
+  FEMALE: "Nữ",
   UNISEX: "Unisex"
 };
 
 const fallbackNames = [
-  ["Ao bong da san nha nam 2026", "ao-bong-da-san-nha-nam-2026", "MALE", 1],
-  ["Ao bong da san khach nam 2026", "ao-bong-da-san-khach-nam-2026", "MALE", 1],
-  ["Ao thu mon nam phan quang", "ao-thu-mon-nam-phan-quang", "MALE", 1],
-  ["Ao bong da nu san nha 2026", "ao-bong-da-nu-san-nha-2026", "FEMALE", 1],
-  ["Ao bong da nu co tim", "ao-bong-da-nu-co-tim", "FEMALE", 1],
-  ["Ao bong da tre em xanh san co", "ao-bong-da-tre-em-xanh-san-co", "UNISEX", 1],
-  ["Ao bong da unisex form rong", "ao-bong-da-unisex-form-rong", "UNISEX", 1],
-  ["Ao polo the thao Ni Sport", "ao-polo-the-thao-ni-sport", "UNISEX", 1],
-  ["Ao tap compression tay dai", "ao-tap-compression-tay-dai", "UNISEX", 4],
-  ["Ao bib tap luyen doi bong", "ao-bib-tap-luyen-doi-bong", "UNISEX", 4],
-  ["Quan bong da nam basic", "quan-bong-da-nam-basic", "MALE", 2],
-  ["Quan bong da nam tui khoa", "quan-bong-da-nam-tui-khoa", "MALE", 2],
-  ["Quan bong da nu dang gon", "quan-bong-da-nu-dang-gon", "FEMALE", 2],
-  ["Quan short tap gym bong da", "quan-short-tap-gym-bong-da", "UNISEX", 4],
-  ["Quan jogger the thao Ni Sport", "quan-jogger-the-thao-ni-sport", "UNISEX", 4],
-  ["Bo do bong da nam do den", "bo-do-bong-da-nam-do-den", "MALE", 3],
-  ["Bo do bong da nam xanh navy", "bo-do-bong-da-nam-xanh-navy", "MALE", 3],
-  ["Bo do bong da nu trang xanh", "bo-do-bong-da-nu-trang-xanh", "FEMALE", 3],
-  ["Bo do bong da nu hong den", "bo-do-bong-da-nu-hong-den", "FEMALE", 3],
-  ["Bo do bong da unisex toi gian", "bo-do-bong-da-unisex-toi-gian", "UNISEX", 3],
-  ["Bo do bong da tre em vang xanh", "bo-do-bong-da-tre-em-vang-xanh", "UNISEX", 3],
-  ["Bo do thu mon nam cam den", "bo-do-thu-mon-nam-cam-den", "MALE", 3],
-  ["Bo do thu mon unisex xanh la", "bo-do-thu-mon-unisex-xanh-la", "UNISEX", 3],
-  ["Set training unisex xam den", "set-training-unisex-xam-den", "UNISEX", 4],
-  ["Ao khoac gio bong da unisex", "ao-khoac-gio-bong-da-unisex", "UNISEX", 4],
-  ["Ao khoac training nam", "ao-khoac-training-nam", "MALE", 4],
-  ["Ao khoac training nu", "ao-khoac-training-nu", "FEMALE", 4],
-  ["Quan dai training unisex", "quan-dai-training-unisex", "UNISEX", 4],
-  ["Ao giu nhiet bong da", "ao-giu-nhiet-bong-da", "UNISEX", 4],
-  ["Tat bong da chong truot", "tat-bong-da-chong-truot", "UNISEX", 5],
-  ["Tat bong da co cao", "tat-bong-da-co-cao", "UNISEX", 5],
-  ["Boc ong dong thi dau", "boc-ong-dong-thi-dau", "UNISEX", 5],
-  ["Gang tay thu mon basic", "gang-tay-thu-mon-basic", "UNISEX", 5],
-  ["Gang tay thu mon pro grip", "gang-tay-thu-mon-pro-grip", "UNISEX", 5],
-  ["Bang doi truong", "bang-doi-truong", "UNISEX", 5],
-  ["Bang co chan the thao", "bang-co-chan-the-thao", "UNISEX", 5],
-  ["Tui dung giay bong da", "tui-dung-giay-bong-da", "UNISEX", 5],
-  ["Tui trong the thao Ni Sport", "tui-trong-the-thao-ni-sport", "UNISEX", 5],
-  ["Binh nuoc the thao 750ml", "binh-nuoc-the-thao-750ml", "UNISEX", 5],
-  ["Khan the thao nhanh kho", "khan-the-thao-nhanh-kho", "UNISEX", 5],
-  ["Non luoi trai the thao", "non-luoi-trai-the-thao", "UNISEX", 5],
-  ["Day khang luc tap chan", "day-khang-luc-tap-chan", "UNISEX", 4],
-  ["Thang day tap toc do", "thang-day-tap-toc-do", "UNISEX", 4],
-  ["Coc tieu tap luyen bo 10", "coc-tieu-tap-luyen-bo-10", "UNISEX", 4],
-  ["Bong da tap luyen size 5", "bong-da-tap-luyen-size-5", "UNISEX", 5],
-  ["Bong futsal size 4", "bong-futsal-size-4", "UNISEX", 5],
-  ["Bom bong mini", "bom-bong-mini", "UNISEX", 5],
-  ["Kim bom bong bo 5", "kim-bom-bong-bo-5", "UNISEX", 5],
-  ["Ao co vu Ni Sport", "ao-co-vu-ni-sport", "UNISEX", 1],
-  ["Combo thi dau doi bong 5 nguoi", "combo-thi-dau-doi-bong-5-nguoi", "UNISEX", 3]
+  ["Áo bóng đá sân nhà nam 2026", "ao-bong-da-san-nha-nam-2026", "MALE", 1],
+  ["Áo bóng đá sân khách nam 2026", "ao-bong-da-san-khach-nam-2026", "MALE", 1],
+  ["Áo thủ môn nam phản quang", "ao-thu-mon-nam-phan-quang", "MALE", 1],
+  ["Áo bóng đá nữ sân nhà 2026", "ao-bong-da-nu-san-nha-2026", "FEMALE", 1],
+  ["Áo bóng đá nữ cổ tim", "ao-bong-da-nu-co-tim", "FEMALE", 1],
+  ["Áo bóng đá trẻ em xanh sân cỏ", "ao-bong-da-tre-em-xanh-san-co", "UNISEX", 1],
+  ["Áo bóng đá unisex form rộng", "ao-bong-da-unisex-form-rong", "UNISEX", 1],
+  ["Áo polo thể thao Ni Sport", "ao-polo-the-thao-ni-sport", "UNISEX", 1],
+  ["Áo tập compression tay dài", "ao-tap-compression-tay-dai", "UNISEX", 4],
+  ["Áo bib tập luyện đội bóng", "ao-bib-tap-luyen-doi-bong", "UNISEX", 4],
+  ["Quần bóng đá nam basic", "quan-bong-da-nam-basic", "MALE", 2],
+  ["Quần bóng đá nam túi khóa", "quan-bong-da-nam-tui-khoa", "MALE", 2],
+  ["Quần bóng đá nữ dáng gọn", "quan-bong-da-nu-dang-gon", "FEMALE", 2],
+  ["Quần short tập gym bóng đá", "quan-short-tap-gym-bong-da", "UNISEX", 4],
+  ["Quần jogger thể thao Ni Sport", "quan-jogger-the-thao-ni-sport", "UNISEX", 4],
+  ["Bộ đồ bóng đá nam đỏ đen", "bo-do-bong-da-nam-do-den", "MALE", 3],
+  ["Bộ đồ bóng đá nam xanh navy", "bo-do-bong-da-nam-xanh-navy", "MALE", 3],
+  ["Bộ đồ bóng đá nữ trắng xanh", "bo-do-bong-da-nu-trang-xanh", "FEMALE", 3],
+  ["Bộ đồ bóng đá nữ hồng đen", "bo-do-bong-da-nu-hong-den", "FEMALE", 3],
+  ["Bộ đồ bóng đá unisex tối giản", "bo-do-bong-da-unisex-toi-gian", "UNISEX", 3],
+  ["Bộ đồ bóng đá trẻ em vàng xanh", "bo-do-bong-da-tre-em-vang-xanh", "UNISEX", 3],
+  ["Bộ đồ thủ môn nam cam đen", "bo-do-thu-mon-nam-cam-den", "MALE", 3],
+  ["Bộ đồ thủ môn unisex xanh lá", "bo-do-thu-mon-unisex-xanh-la", "UNISEX", 3],
+  ["Set training unisex xám đen", "set-training-unisex-xam-den", "UNISEX", 4],
+  ["Áo khoác gió bóng đá unisex", "ao-khoac-gio-bong-da-unisex", "UNISEX", 4],
+  ["Áo khoác training nam", "ao-khoac-training-nam", "MALE", 4],
+  ["Áo khoác training nữ", "ao-khoac-training-nu", "FEMALE", 4],
+  ["Quần dài training unisex", "quan-dai-training-unisex", "UNISEX", 4],
+  ["Áo giữ nhiệt bóng đá", "ao-giu-nhiet-bong-da", "UNISEX", 4],
+  ["Tất bóng đá chống trượt", "tat-bong-da-chong-truot", "UNISEX", 5],
+  ["Tất bóng đá cổ cao", "tat-bong-da-co-cao", "UNISEX", 5],
+  ["Bọc ống đồng thi đấu", "boc-ong-dong-thi-dau", "UNISEX", 5],
+  ["Găng tay thủ môn basic", "gang-tay-thu-mon-basic", "UNISEX", 5],
+  ["Găng tay thủ môn pro grip", "gang-tay-thu-mon-pro-grip", "UNISEX", 5],
+  ["Băng đội trưởng", "bang-doi-truong", "UNISEX", 5],
+  ["Băng cổ chân thể thao", "bang-co-chan-the-thao", "UNISEX", 5],
+  ["Túi đựng giày bóng đá", "tui-dung-giay-bong-da", "UNISEX", 5],
+  ["Túi trống thể thao Ni Sport", "tui-trong-the-thao-ni-sport", "UNISEX", 5],
+  ["Bình nước thể thao 750ml", "binh-nuoc-the-thao-750ml", "UNISEX", 5],
+  ["Khăn thể thao nhanh khô", "khan-the-thao-nhanh-kho", "UNISEX", 5],
+  ["Nón lưỡi trai thể thao", "non-luoi-trai-the-thao", "UNISEX", 5],
+  ["Dây kháng lực tập chân", "day-khang-luc-tap-chan", "UNISEX", 4],
+  ["Thang dây tập tốc độ", "thang-day-tap-toc-do", "UNISEX", 4],
+  ["Cọc tiêu tập luyện bộ 10", "coc-tieu-tap-luyen-bo-10", "UNISEX", 4],
+  ["Bóng đá tập luyện size 5", "bong-da-tap-luyen-size-5", "UNISEX", 5],
+  ["Bóng futsal size 4", "bong-futsal-size-4", "UNISEX", 5],
+  ["Bơm bóng mini", "bom-bong-mini", "UNISEX", 5],
+  ["Kim bơm bóng bộ 5", "kim-bom-bong-bo-5", "UNISEX", 5],
+  ["Áo cổ vũ Ni Sport", "ao-co-vu-ni-sport", "UNISEX", 1],
+  ["Combo thi đấu đội bóng 5 người", "combo-thi-dau-doi-bong-5-nguoi", "UNISEX", 3]
 ];
 
 export const productSeed = fallbackNames.map(([name, slug, gender, categoryId], index) => [
@@ -75,12 +75,12 @@ export const productSeed = fallbackNames.map(([name, slug, gender, categoryId], 
   categoryId,
   99000 + ((index + 2) * 17000),
   index % 3 === 0 ? 149000 + ((index + 2) * 18000) : 0,
-  `${name} chat lieu the thao thoang khi, phu hop tap luyen va thi dau phong trao.`,
+  `${name} chất liệu thể thao thoáng khí, phù hợp tập luyện và thi đấu phong trào.`,
   ["HOT", "NEW", "SALE", "BASIC"][index % 4]
 ]);
 
 function getCategoryName(categoryId) {
-  return productCategories.find((category) => Number(category.id) === Number(categoryId))?.name || "San pham";
+  return productCategories.find((category) => Number(category.id) === Number(categoryId))?.name || "Sản phẩm";
 }
 
 function buildFallbackVariants(product) {
@@ -164,6 +164,7 @@ export let defaultProducts = products.map((product) => ({ ...product, variants: 
 export const PRODUCT_ADMIN_STATE_VERSION = "ni-sport-api-v1";
 
 const params = new URLSearchParams(window.location.search);
+const isProductsPage = window.location.pathname.endsWith("products.html");
 let currentGender = params.get("gender") || "ALL";
 let currentCategoryId = params.get("categoryId") || "all";
 let currentPage = Number(params.get("page")) + 1 || 1;
@@ -175,7 +176,7 @@ let appliedSidebarFilters = {
   colors: [],
   sizes: []
 };
-const productsPerPage = window.location.pathname.endsWith("products.html") ? 8 : 10;
+const productsPerPage = isProductsPage ? 8 : 12;
 
 export function getProductAdminState() {
   const savedState = getData("niSportProductAdminState", {});
@@ -248,6 +249,9 @@ function syncFilterControls() {
   document.querySelectorAll('input[name="sidebarCategory"]').forEach((input) => {
     input.checked = input.value === String(appliedSidebarFilters.categoryId || "all");
   });
+  document.querySelectorAll(".category-card[data-category-id]").forEach((card) => {
+    card.classList.toggle("active", String(card.dataset.categoryId) === String(appliedSidebarFilters.categoryId || "all"));
+  });
 }
 
 function resetSidebarFilters() {
@@ -298,7 +302,7 @@ function renderCategoryFilters() {
   const filterGroup = firstCategoryInput?.closest(".filter-group");
   if (!filterGroup) return;
 
-  const title = filterGroup.querySelector("h4")?.outerHTML || "<h4>Loai san pham</h4>";
+  const title = filterGroup.querySelector("h4")?.outerHTML || "<h4>Loại sản phẩm</h4>";
   const labels = [
     `<label><input type="radio" name="sidebarCategory" value="all" ${checked === "all" ? "checked" : ""}> Tat ca</label>`,
     ...productCategories.map((category) => `
@@ -314,11 +318,18 @@ function getPriceRange() {
   return { minPrice, maxPrice };
 }
 
+function isHomeAllProductsView() {
+  return !isProductsPage
+    && currentGender === "ALL"
+    && String(appliedSidebarFilters.categoryId || "all") === "all";
+}
+
 function getApiProductQuery() {
   const searchInput = document.getElementById("productSearchInput") || document.getElementById("searchInput");
   const query = new URLSearchParams();
   const keyword = searchInput?.value?.trim();
   const price = getPriceRange();
+  const isHomeAllProducts = isHomeAllProductsView();
 
   if (keyword) query.set("keyword", keyword);
   if (currentGender !== "ALL") query.set("gender", currentGender);
@@ -327,8 +338,8 @@ function getApiProductQuery() {
   if (appliedSidebarFilters.sizes.length) query.set("size", appliedSidebarFilters.sizes[0]);
   if (price.minPrice !== undefined) query.set("minPrice", price.minPrice);
   if (price.maxPrice !== undefined) query.set("maxPrice", price.maxPrice);
-  query.set("page", Math.max(currentPage - 1, 0));
-  query.set("size", productsPerPage);
+  query.set("page", isHomeAllProducts ? 0 : Math.max(currentPage - 1, 0));
+  query.set("size", isHomeAllProducts ? 50 : productsPerPage);
   return query;
 }
 
@@ -351,13 +362,16 @@ async function loadProductsFromApi() {
   const pageData = await apiRequest(`/products?${query.toString()}`, { auth: false });
   const content = Array.isArray(pageData) ? pageData : pageData?.content || [];
   const normalized = content.map(normalizeProduct);
+  const mixedHomeItems = isHomeAllProductsView()
+    ? mixProductItemsByCategory(normalized).slice(0, productsPerPage)
+    : normalized;
   products = normalized;
   isUsingApiProducts = true;
   productImages = products.map((product) => ({ id: product.id, productId: product.id, image_url: product.thumbnailUrl, is_thumbnail: true, sort_order: 1 }));
   productVariants = products.flatMap((product) => product.variants || []);
   return {
-    items: normalized,
-    totalPages: Array.isArray(pageData) ? Math.ceil(normalized.length / productsPerPage) : pageData?.totalPages || 1,
+    items: mixedHomeItems,
+    totalPages: isHomeAllProductsView() ? 1 : (Array.isArray(pageData) ? Math.ceil(normalized.length / productsPerPage) : pageData?.totalPages || 1),
     totalItems: Array.isArray(pageData) ? normalized.length : pageData?.totalElements ?? normalized.length
   };
 }
@@ -384,7 +398,7 @@ function createProductCard(product) {
   const card = document.createElement("article");
   const disabled = product.status === "STOPPED" || product.status === "HIDDEN" || product.status === "OUT_OF_STOCK";
   const rating = (4.4 + ((Number(product.id) || 1) % 5) / 10).toFixed(1);
-  const stockText = Number(product.totalStock || 0) > 0 ? `Con ${product.totalStock} san pham` : "Tam het hang";
+  const stockText = Number(product.totalStock || 0) > 0 ? `Còn ${product.totalStock} sản phẩm` : "Tạm hết hàng";
   card.className = "product-card";
   card.innerHTML = `
     <a class="product-image" href="${pageUrl("product-detail.html")}?id=${product.id}">
@@ -394,7 +408,7 @@ function createProductCard(product) {
     <div class="product-info">
       <span class="product-category">${genderLabels[product.gender] || product.gender || "Unisex"} / ${product.categoryName}</span>
       <h3><a href="${pageUrl("product-detail.html")}?id=${product.id}">${product.name}</a></h3>
-      <div class="product-rating" aria-label="Danh gia ${rating} tren 5">
+      <div class="product-rating" aria-label="Đánh giá ${rating} trên 5">
         <span>★★★★★</span>
         <strong>${rating}</strong>
         <small>${stockText}</small>
@@ -404,8 +418,8 @@ function createProductCard(product) {
         ${product.oldPrice ? `<span class="old-price">${formatMoney(product.oldPrice)}</span>` : ""}
       </div>
       <div class="product-actions">
-        <a class="action-btn quick-btn" href="${pageUrl("product-detail.html")}?id=${product.id}">Chi tiet</a>
-        <button class="action-btn add-btn" ${disabled ? "disabled" : ""} onclick="addToCart(${product.id})">${disabled ? "Tam het" : "Them gio"}</button>
+        <a class="action-btn quick-btn" href="${pageUrl("product-detail.html")}?id=${product.id}">Chi tiết</a>
+        <button class="action-btn add-btn" ${disabled ? "disabled" : ""} onclick="addToCart(${product.id})">${disabled ? "Tạm hết" : "Thêm giỏ"}</button>
       </div>
     </div>
   `;
@@ -417,9 +431,52 @@ function getSortValue() {
   return document.getElementById("productSortSelect")?.value || "featured";
 }
 
+function shuffleProductItems(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
+function mixProductItemsByCategory(items) {
+  const categoryOrder = [
+    ...productCategories.map((category) => Number(category.id)),
+    ...items.map((item) => Number(item.categoryId))
+  ].filter((categoryId, index, list) => categoryId && list.indexOf(categoryId) === index);
+  const groups = new Map(categoryOrder.map((categoryId) => [categoryId, []]));
+
+  items.forEach((item) => {
+    const categoryId = Number(item.categoryId);
+    if (!groups.has(categoryId)) groups.set(categoryId, []);
+    groups.get(categoryId).push(item);
+  });
+
+  groups.forEach((group, categoryId) => {
+    groups.set(categoryId, shuffleProductItems(group));
+  });
+
+  const mixed = [];
+  let hasItems = true;
+  while (hasItems) {
+    hasItems = false;
+    categoryOrder.forEach((categoryId) => {
+      const group = groups.get(categoryId);
+      if (group?.length) {
+        mixed.push(group.shift());
+        hasItems = true;
+      }
+    });
+  }
+
+  return mixed;
+}
+
 function sortProductItems(items) {
   const sortValue = getSortValue();
   const sorted = [...items];
+  if (isHomeAllProductsView() && sortValue === "featured") return mixProductItemsByCategory(sorted);
   if (sortValue === "price-asc") sorted.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
   if (sortValue === "price-desc") sorted.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
   if (sortValue === "name-asc") sorted.sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "vi"));
@@ -431,7 +488,7 @@ function updateProductResultCount(totalItems, shownItems) {
   if (!resultCount) return;
   const total = Number(totalItems || 0);
   const shown = Number(shownItems || 0);
-  resultCount.textContent = total > shown ? `Dang hien thi ${shown} / ${total} san pham` : `${shown} san pham phu hop`;
+  resultCount.textContent = total > shown ? `Đang hiển thị ${shown} / ${total} sản phẩm` : `${shown} sản phẩm phù hợp`;
 }
 
 export async function renderProducts() {
@@ -439,7 +496,7 @@ export async function renderProducts() {
   const emptyMessage = document.getElementById("emptyMessage");
   if (!productGrid || !emptyMessage) return;
 
-  productGrid.innerHTML = `<div class="product-loading">Dang tai san pham...</div>`;
+  productGrid.innerHTML = `<div class="product-loading">Đang tải sản phẩm...</div>`;
   emptyMessage.style.display = "none";
 
   try {
@@ -448,7 +505,7 @@ export async function renderProducts() {
     productGrid.innerHTML = "";
     updateProductResultCount(totalItems, visibleItems.length);
     if (visibleItems.length === 0) {
-      emptyMessage.textContent = "Khong tim thay san pham phu hop.";
+      emptyMessage.textContent = "Không tìm thấy sản phẩm phù hợp.";
       emptyMessage.style.display = "block";
       renderProductPagination(0);
       return;
@@ -461,7 +518,7 @@ export async function renderProducts() {
     productGrid.innerHTML = "";
     updateProductResultCount(filteredProducts.length, Math.min(filteredProducts.length, productsPerPage));
     if (filteredProducts.length === 0) {
-      emptyMessage.textContent = "Khong tim thay san pham phu hop.";
+      emptyMessage.textContent = "Không tìm thấy sản phẩm phù hợp.";
       emptyMessage.style.display = "block";
       renderProductPagination(0);
       return;
@@ -470,7 +527,7 @@ export async function renderProducts() {
     if (currentPage > totalPages) currentPage = totalPages;
     const startIndex = (currentPage - 1) * productsPerPage;
     filteredProducts.slice(startIndex, startIndex + productsPerPage).forEach((product) => productGrid.appendChild(createProductCard(product)));
-    emptyMessage.textContent = "Backend chua san sang, dang hien thi du lieu mau.";
+    emptyMessage.textContent = "Backend chưa sẵn sàng, đang hiển thị dữ liệu mẫu.";
     emptyMessage.style.display = "block";
     renderProductPagination(totalPages);
   }

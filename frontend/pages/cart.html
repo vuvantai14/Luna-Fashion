@@ -3,20 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gio hang - Ni Sport</title>
+  <title>Giỏ hàng - Ni Sport</title>
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
-  <div class="top-bar"><div class="container top-bar-inner"><span>Freeship don tu 500K</span><span>Ni Sport - San sang ra san</span><span>Hotline: 0909 123 456</span></div></div>
-  <header class="site-header"><div class="container header-wrapper"><a href="./index.html" class="logo"><span class="logo-main">Ni<span>Sport</span></span><small>San sang ra san</small></a><button class="menu-toggle" id="menuToggle" aria-label="Mo menu">Menu</button><nav class="main-nav" id="mainNav"><a href="./index.html">Trang chu</a><a href="./products.html">San pham</a><a href="./collection.html">Danh muc</a><a href="./orders.html">Don hang cua toi</a><a href="./contact.html">Lien he</a></nav><div class="header-actions"><div class="search-box"><input type="text" id="searchInput" placeholder="Tim ao, quan, phu kien..." /><span>Tim</span></div><a class="login-link" href="./login.html" aria-label="Tai khoan"><span class="account-mark">TK</span><small>Tai khoan</small></a><button class="cart-button" id="cartOpenBtn" aria-label="Gio hang"><span class="cart-mark">Gio</span><span id="cartCount">0</span></button></div></div></header>
-  <main class="cart-page"><div class="container"><div class="cart-page-title"><h1>Gio hang</h1><p>Kiem tra san pham, size, mau va tong tien truoc khi dat hang COD.</p></div><div class="cart-page-layout"><section><div class="cart-page-table"><div class="cart-page-head"><div></div><div>Don gia</div><div>So luong</div><div>Tam tinh</div><div></div></div><div id="cartPageItems"></div></div><div class="cart-page-actions"><a class="continue-shopping" href="./products.html">Tiep tuc mua hang</a><button class="cart-clear-btn" type="button">Xoa gio hang</button></div></section><aside class="cart-summary"><section><h2>Thong tin giao hang</h2><p>Thanh toan COD khi nhan hang. Don hang se duoc tao tu gio hang backend.</p><form id="checkoutForm" class="checkout-form"><div class="form-group"><label for="receiverName">Nguoi nhan</label><input id="receiverName" name="receiverName" type="text" placeholder="Nhap ten nguoi nhan"></div><div class="form-group"><label for="receiverPhone">So dien thoai</label><input id="receiverPhone" name="receiverPhone" type="tel" placeholder="Nhap so dien thoai"></div><div class="form-group"><label for="receiverAddress">Dia chi giao hang</label><textarea id="receiverAddress" name="receiverAddress" rows="3" placeholder="So nha, duong, phuong xa, quan huyen, tinh thanh"></textarea></div><div class="form-group"><label for="orderNote">Ghi chu</label><textarea id="orderNote" name="note" rows="2" placeholder="Ghi chu cho shop neu co"></textarea></div><div class="summary-line"><span>Phuong thuc</span><strong>COD</strong></div><div class="summary-line"><span>San pham</span><strong id="cartPageCount">0</strong></div><div class="summary-line"><span>Tam tinh</span><strong id="cartPageSubtotal">0d</strong></div><div class="summary-line"><span>Phi van chuyen</span><strong id="cartPageShipping">0d</strong></div><div class="summary-line total"><span>Tong cong</span><strong id="cartPageTotal">0d</strong></div><button class="checkout-main-btn" type="submit">Dat hang COD</button><p class="cart-secure-note" id="cartPageNotice">Kiem tra size va mau truoc khi dat hang.</p></form></section></aside></div></div></main>
-  <footer class="site-footer"><div class="container footer-wrapper"><div><a href="./index.html" class="logo footer-logo"><span class="logo-main">Ni<span>Sport</span></span><small>San sang ra san</small></a><p>Trang phuc bong da va phu kien cho moi tran dau.</p></div><div><h4>Thong tin</h4><a href="./products.html">San pham</a><a href="./collection.html">Danh muc</a><a href="./contact.html">Lien he</a></div><div><h4>Chinh sach</h4><a href="#">Mua hang</a><a href="#">Doi size</a><a href="#">Van chuyen</a></div><div><h4>Theo doi shop</h4><p>Facebook / Instagram / TikTok</p><p>Hotline: 0909 123 456</p></div></div></footer>
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <span>Freeship đơn từ 500K</span>
+      <span>Ni Sport - Sẵn sàng ra sân</span>
+      <span>Hotline: 0909 123 456</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-wrapper">
+      <a href="./index.html" class="logo">
+        <span class="logo-main">Ni<span>Sport</span></span>
+        <small>Sẵn sàng ra sân</small>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Mở menu">Menu</button>
+      <nav class="main-nav" id="mainNav">
+        <a href="./index.html">Trang chủ</a>
+        <a href="./products.html">Sản phẩm</a>
+        <a href="./collection.html">Danh mục</a>
+        <a href="./orders.html">Đơn hàng của tôi</a>
+        <a href="./contact.html">Liên hệ</a>
+      </nav>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Tìm áo, quần, phụ kiện..." />
+          <span>Tìm</span>
+        </div>
+        <a class="login-link" href="./login.html" aria-label="Tài khoản">
+          <span class="account-mark">TK</span>
+          <small>Tài khoản</small>
+        </a>
+        <button class="cart-button" id="cartOpenBtn" aria-label="Giỏ hàng">
+          <span class="cart-mark">Giỏ</span>
+          <span id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-page">
+    <div class="container">
+      <div class="cart-page-title">
+        <p class="cart-kicker">THANH TOÁN COD</p>
+        <h1>GIỎ HÀNG</h1>
+      </div>
+
+      <div class="cart-page-layout">
+        <section class="cart-left-panel" aria-label="Danh sách sản phẩm trong giỏ">
+          <div class="cart-page-table">
+            <div class="cart-page-head">
+              <div>Sản phẩm</div>
+              <div>Đơn giá</div>
+              <div>Số lượng</div>
+              <div>Tạm tính</div>
+              <div>Thao tác</div>
+            </div>
+            <div id="cartPageItems"></div>
+          </div>
+
+          <div class="cart-page-actions">
+            <a class="continue-shopping" href="./products.html">Tiếp tục mua hàng</a>
+            <button class="cart-clear-btn" type="button">Xóa giỏ hàng</button>
+          </div>
+        </section>
+
+        <aside class="cart-summary" aria-label="Thông tin giao hàng và tổng tiền">
+          <section>
+            <h2>THÔNG TIN GIAO HÀNG</h2>
+            <p class="cart-summary-note">Thanh toán COD khi nhận hàng. Đơn hàng sẽ được tạo từ giỏ hàng backend.</p>
+            <form id="checkoutForm" class="checkout-form">
+              <div class="form-group">
+                <label for="receiverName">Người nhận</label>
+                <input id="receiverName" name="receiverName" type="text" placeholder="Nhập tên người nhận">
+              </div>
+              <div class="form-group">
+                <label for="receiverPhone">Số điện thoại</label>
+                <input id="receiverPhone" name="receiverPhone" type="tel" placeholder="Nhập số điện thoại">
+              </div>
+              <div class="form-group">
+                <label for="receiverAddress">Địa chỉ giao hàng</label>
+                <textarea id="receiverAddress" name="receiverAddress" placeholder="Số nhà, đường, phường xã, quận huyện, tỉnh thành"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="orderNote">Ghi chú</label>
+                <textarea id="orderNote" name="note" placeholder="Ghi chú cho shop nếu có"></textarea>
+              </div>
+
+              <div class="cart-summary-total">
+                <div class="summary-line">
+                  <span>Phương thức</span>
+                  <strong>COD</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Sản phẩm</span>
+                  <strong id="cartPageCount">0</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Tạm tính</span>
+                  <strong id="cartPageSubtotal">0đ</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Phí vận chuyển</span>
+                  <strong id="cartPageShipping">0đ</strong>
+                </div>
+                <div class="summary-line total">
+                  <span>Tổng cộng</span>
+                  <strong id="cartPageTotal">0đ</strong>
+                </div>
+              </div>
+
+              <div class="cart-freeship-note">
+                <span aria-hidden="true">✓</span>
+                <p>Bạn đã được miễn phí vận chuyển cho đơn hàng từ 500K</p>
+              </div>
+
+              <button class="checkout-main-btn" type="submit">
+                <span aria-hidden="true">✓</span>
+                ĐẶT HÀNG COD
+              </button>
+              <p class="cart-secure-note" id="cartPageNotice">Kiểm tra size và màu trước khi đặt hàng.</p>
+            </form>
+          </section>
+        </aside>
+      </div>
+
+      <section class="cart-service-strip" aria-label="Cam kết mua hàng">
+        <article>
+          <span aria-hidden="true">✓</span>
+          <div>
+            <strong>Sản phẩm chính hãng 100%</strong>
+            <small>Kiểm tra kỹ trước khi giao</small>
+          </div>
+        </article>
+        <article>
+          <span aria-hidden="true">↺</span>
+          <div>
+            <strong>Đổi trả dễ dàng</strong>
+            <small>Hỗ trợ đổi size trong 7 ngày</small>
+          </div>
+        </article>
+        <article>
+          <span aria-hidden="true">?</span>
+          <div>
+            <strong>Tư vấn nhiệt tình</strong>
+            <small>Chọn size và mẫu phù hợp</small>
+          </div>
+        </article>
+        <article>
+          <span aria-hidden="true">₫</span>
+          <div>
+            <strong>Thanh toán khi nhận hàng</strong>
+            <small>COD an toàn, tiện lợi</small>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrapper">
+      <div>
+        <a href="./index.html" class="logo footer-logo">
+          <span class="logo-main">Ni<span>Sport</span></span>
+          <small>Sẵn sàng ra sân</small>
+        </a>
+        <p>Trang phục bóng đá và phụ kiện cho mọi trận đấu.</p>
+      </div>
+      <div>
+        <h4>Thông tin</h4>
+        <a href="./products.html">Sản phẩm</a>
+        <a href="./collection.html">Danh mục</a>
+        <a href="./contact.html">Liên hệ</a>
+      </div>
+      <div>
+        <h4>Chính sách</h4>
+        <a href="#">Mua hàng</a>
+        <a href="#">Đổi size</a>
+        <a href="#">Vận chuyển</a>
+      </div>
+      <div>
+        <h4>Theo dõi shop</h4>
+        <p>Facebook / Instagram / TikTok</p>
+        <p>Hotline: 0909 123 456</p>
+      </div>
+    </div>
+  </footer>
+
   <div class="overlay" id="overlay"></div>
-  <aside class="cart-drawer" id="cartDrawer"><div class="cart-header"><h3>Gio hang cua ban</h3><button id="cartCloseBtn">Dong</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="cart-total"><span>Tong tien:</span><strong id="cartTotal">0d</strong></div><button class="btn btn-primary checkout-btn" id="checkoutBtn">Thanh toan</button></div></aside>
-  <div class="quick-modal" id="quickModal"><div class="quick-content"><button class="quick-close" id="quickCloseBtn">Dong</button><div id="quickViewBody"></div></div></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Giỏ hàng của bạn</h3>
+      <button id="cartCloseBtn">Đóng</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span>Tổng tiền:</span><strong id="cartTotal">0đ</strong></div>
+      <button class="btn btn-primary checkout-btn" id="checkoutBtn">Thanh toán</button>
+    </div>
+  </aside>
+
+  <div class="quick-modal" id="quickModal">
+    <div class="quick-content">
+      <button class="quick-close" id="quickCloseBtn">Đóng</button>
+      <div id="quickViewBody"></div>
+    </div>
+  </div>
   <div class="toast" id="toast"></div>
   <script type="module" src="../js/cart.js"></script>
 </body>
 </html>
-

@@ -306,7 +306,7 @@ button {
 }
 
 .cart-button::after {
-  content: "Giá» hĂ ng";
+  content: "Giỏ hàng";
   color: inherit;
   font-size: 0.66rem;
   font-weight: 800;
@@ -1263,12 +1263,25 @@ textarea:focus-visible {
   color: #dbeafe;
   background: var(--sport-navy);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.top-bar-inner {
+  min-height: 28px;
+  align-items: center;
+  line-height: 1;
 }
 
 .site-header {
-  background: rgba(255, 255, 255, 0.94);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.035);
+}
+
+.header-wrapper {
+  min-height: 76px;
+  gap: 22px;
 }
 
 .logo-main {
@@ -1282,30 +1295,62 @@ textarea:focus-visible {
 }
 
 .logo small {
-  color: var(--sport-muted);
-  font-weight: 800;
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.main-nav {
+  gap: clamp(26px, 2vw, 32px);
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .main-nav a {
   color: #334155;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: color 0.2s ease;
 }
 
 .main-nav a::after {
-  bottom: -12px;
-  height: 3px;
-  background: var(--sport-lime);
+  bottom: -14px;
+  height: 2px;
+  background: var(--sport-green);
+  opacity: 0.9;
 }
 
 .main-nav a:hover,
 .main-nav a.active {
-  color: var(--sport-navy);
+  color: var(--sport-green);
 }
 
 .search-box {
+  width: clamp(210px, 19vw, 280px);
+  min-height: 44px;
+  padding: 0 14px;
   background: #f8fafc;
-  border-color: #dbe3ee;
+  border-color: #dbe3ef;
   border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.search-box input {
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.search-box input::placeholder {
+  color: #94a3b8;
+}
+
+.search-box span {
+  color: #475569;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .search-box:focus-within {
@@ -1316,24 +1361,38 @@ textarea:focus-visible {
 .icon-button,
 .cart-button,
 .login-link {
-  min-width: 58px;
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
   color: #0f172a;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-weight: 800;
+  border-radius: 14px;
+  font-weight: 700;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .icon-button:hover,
 .cart-button:hover,
 .login-link:hover {
-  color: var(--sport-navy);
+  color: var(--sport-green);
   background: #ecfdf5;
   border-color: #bbf7d0;
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.1);
+}
+
+.login-link span {
+  font-size: 1rem;
+}
+
+.login-link small {
+  font-size: 0.62rem;
+  font-weight: 700;
 }
 
 .account-mark,
 .cart-mark {
+  position: static;
   display: grid;
   place-items: center;
   min-width: 24px;
@@ -1347,10 +1406,24 @@ textarea:focus-visible {
   line-height: 1;
 }
 
+.cart-button .cart-mark {
+  position: static;
+  top: auto;
+  right: auto;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  color: var(--sport-navy);
+  background: var(--sport-lime);
+}
+
 .cart-button span#cartCount {
   top: -5px;
   right: -5px;
   background: var(--sport-red);
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 800;
 }
 
 .cart-button::after {
@@ -1442,6 +1515,18 @@ textarea:focus-visible {
 }
 
 @media (max-width: 820px) {
+  .top-bar-inner {
+    min-height: 28px;
+    padding: 0;
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .header-wrapper {
+    min-height: 72px;
+    gap: 14px;
+  }
+
   .main-nav {
     top: 72px;
     background: #ffffff;
@@ -1451,6 +1536,8 @@ textarea:focus-visible {
 
   .main-nav a {
     border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
   }
 
   .main-nav a:hover,
@@ -1460,6 +1547,36 @@ textarea:focus-visible {
 
   .header-actions {
     gap: 8px;
+  }
+
+  .search-box {
+    min-height: 44px;
+  }
+
+  .login-link,
+  .cart-button,
+  .icon-button {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+  }
+}
+
+@media (min-width: 821px) and (max-width: 1080px) {
+  .header-wrapper {
+    gap: 16px;
+  }
+
+  .main-nav {
+    gap: clamp(16px, 1.7vw, 24px);
+  }
+
+  .main-nav a {
+    font-size: 14.5px;
+  }
+
+  .search-box {
+    width: clamp(180px, 17vw, 230px);
   }
 }
 

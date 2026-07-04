@@ -3,8 +3,8 @@ import { initCartControls } from "./cart.js";
 import "./products.js";
 
 const heroBanners = [
-  "../assets/banner-1.jpg",
-  "../assets/banner-2.jpg"
+  "../assets/banner-2.jpg",
+  "../assets/banner-1.jpg"
 ];
 
 let currentHeroBanner = 0;
@@ -22,7 +22,7 @@ function setHeroBanner(index) {
   heroDots.forEach((dot, dotIndex) => {
     dot.classList.toggle("active", dotIndex === currentHeroBanner);
   });
-  heroTextContent?.classList.toggle("hide", currentHeroBanner !== 0);
+  heroTextContent?.classList.remove("hide");
 }
 
 export function initHeroBanner() {

@@ -236,7 +236,7 @@ export function renderCartPage(cartData = backendCart, isFallback = false) {
 
   if (cartPageCount) cartPageCount.textContent = `${data.totalQuantity} san pham`;
   if (cartPageSubtotal) cartPageSubtotal.textContent = formatMoney(data.totalAmount);
-  if (cartPageShipping) cartPageShipping.textContent = shipping === 0 ? "Mien phi" : formatMoney(shipping);
+  if (cartPageShipping) cartPageShipping.textContent = shipping === 0 ? "Miễn phí" : formatMoney(shipping);
   if (cartPageTotal) cartPageTotal.textContent = formatMoney(total);
   if (cartPageNotice) {
     cartPageNotice.textContent = !getToken()
@@ -275,8 +275,11 @@ export function renderCartPage(cartData = backendCart, isFallback = false) {
         </a>
         <div class="cart-page-info">
           <h3><a href="${pageUrl("product-detail.html")}?id=${item.productId}">${item.productName}</a></h3>
-          <p>SKU: ${item.sku || "NI"}</p>
-          <p>Size: ${item.size || "M"} | Mau: ${item.color || "Black"}</p>
+          <p class="cart-page-sku">SKU: ${item.sku || "NI"}</p>
+          <div class="cart-page-tags">
+            <span class="cart-page-tag">Size: ${item.size || "M"}</span>
+            <span class="cart-page-tag">Màu: ${item.color || "Black"}</span>
+          </div>
         </div>
       </div>
       <div class="cart-page-price"><strong>${formatMoney(item.price)}</strong></div>
@@ -286,7 +289,7 @@ export function renderCartPage(cartData = backendCart, isFallback = false) {
         <button onclick="changeQuantity('${item.id}', 1)">+</button>
       </div>
       <div class="cart-page-line-total"><strong>${formatMoney(item.subtotal)}</strong></div>
-      <div class="cart-page-remove"><button onclick="removeFromCart('${item.id}')" aria-label="Xoa ${item.productName}"><span>Xoa</span></button></div>
+      <div class="cart-page-remove"><button onclick="removeFromCart('${item.id}')" aria-label="Xóa ${item.productName}">Xóa</button></div>
     </article>
   `).join("");
   bindCartImages(cartPageItems);
